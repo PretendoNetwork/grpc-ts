@@ -1,0 +1,21 @@
+{
+  "name": "grpc-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "long": "^5.2.1",
+    "protobufjs": "^7.2.3"
+  },
+  "devDependencies": {
+    "grpc-tools": "^1.12.4",
+    "nice-grpc": "^2.1.4",
+    "ts-proto": "^1.146.0"
+  }
+}
