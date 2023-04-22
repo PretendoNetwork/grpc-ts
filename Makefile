@@ -1,16 +1,13 @@
 NODE_BIN=./node_modules/.bin
 
-build: pull npm clean account miiverse friends
+build: pull npm_init account miiverse friends npm_build
 
 pull:
 	git submodule init
 	git submodule update --remote --merge
 
-npm:
+npm_init:
 	test -d node_modules || npm i
-
-clean:
-	rm -rf src
 
 account:
 	mkdir -p src/account
@@ -42,4 +39,7 @@ friends:
 	--proto_path=grpc-protobufs/friends \
 	grpc-protobufs/friends/*.proto
 
-.PHONY: pull npm account miiverse friends
+npm_build:
+	npm run build
+
+.PHONY: pull npm_init account miiverse friends npm_build

@@ -2,9 +2,13 @@
 	"name": "pretendo-grpc-ts",
 	"version": "1.0.0",
 	"description": "",
-	"main": "src",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"type": "module",
 	"scripts": {
-		"postinstall": "npx tsc"
+		"clean": "rm -rf ./dist",
+		"build": "npm run clean && npx tsc -d && npx tsc-alias",
+		"postinstall": "npm run build"
 	},
 	"keywords": [],
 	"author": "",
