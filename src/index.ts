@@ -1,3 +1,3 @@
-export * from '@/account';
-export * from '@/friends';
-export * from '@/miiverse';
+export * as account from '@/account';
+export * as friends from '@/friends';
+export * as miiverse from '@/miiverse';

@@ -4,7 +4,6 @@
 	"description": "",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
-	"type": "module",
 	"scripts": {
 		"clean": "rm -rf ./dist",
 		"build": "npm run clean && npx tsc -d && npx tsc-alias",
@@ -22,10 +21,5 @@
 		"nice-grpc": "^2.1.4",
 		"ts-proto": "^1.146.0",
 		"typescript": "^5.0.4"
-	},
-	"exports": {
-		"./account/*": "./dist/account/*.js",
-		"./friends/*": "./dist/friends/*.js",
-		"./miiverse/*": "./dist/miiverse/*.js"
 	}
 }
