@@ -1,7 +1,6 @@
 /* eslint-disable */
 import type { CallContext, CallOptions } from "nice-grpc-common";
-import { GetBasicUserDataRequest, GetBasicUserDataResponse } from "./get_basic_user_data_rpc";
-import { IsBannedRequest, IsBannedResponse } from "./is_banned_rpc";
+import { GetUserDataRequest, GetUserDataResponse } from "./get_user_data_rpc";
 import { LoginRequest, LoginResponse } from "./login_rpc";
 import { RegisterPNIDRequest } from "./register_pnid_rpc";
 
@@ -12,24 +11,14 @@ export const AccountDefinition = {
   name: "Account",
   fullName: "account.Account",
   methods: {
-    /** Used by Juxt */
-    isBanned: {
-      name: "IsBanned",
-      requestType: IsBannedRequest,
+    getUserData: {
+      name: "GetUserData",
+      requestType: GetUserDataRequest,
       requestStream: false,
-      responseType: IsBannedResponse,
+      responseType: GetUserDataResponse,
       responseStream: false,
       options: {},
     },
-    getBasicUserData: {
-      name: "GetBasicUserData",
-      requestType: GetBasicUserDataRequest,
-      requestStream: false,
-      responseType: GetBasicUserDataResponse,
-      responseStream: false,
-      options: {},
-    },
-    /** Used by website */
     registerPNID: {
       name: "RegisterPNID",
       requestType: RegisterPNIDRequest,
@@ -50,13 +39,10 @@ export const AccountDefinition = {
 } as const;
 
 export interface AccountServiceImplementation<CallContextExt = {}> {
-  /** Used by Juxt */
-  isBanned(request: IsBannedRequest, context: CallContext & CallContextExt): Promise<DeepPartial<IsBannedResponse>>;
-  getBasicUserData(
-    request: GetBasicUserDataRequest,
+  getUserData(
+    request: GetUserDataRequest,
     context: CallContext & CallContextExt,
-  ): Promise<DeepPartial<GetBasicUserDataResponse>>;
-  /** Used by website */
+  ): Promise<DeepPartial<GetUserDataResponse>>;
   registerPNID(
     request: RegisterPNIDRequest,
     context: CallContext & CallContextExt,
@@ -65,13 +51,10 @@ export interface AccountServiceImplementation<CallContextExt = {}> {
 }
 
 export interface AccountClient<CallOptionsExt = {}> {
-  /** Used by Juxt */
-  isBanned(request: DeepPartial<IsBannedRequest>, options?: CallOptions & CallOptionsExt): Promise<IsBannedResponse>;
-  getBasicUserData(
-    request: DeepPartial<GetBasicUserDataRequest>,
+  getUserData(
+    request: DeepPartial<GetUserDataRequest>,
     options?: CallOptions & CallOptionsExt,
-  ): Promise<GetBasicUserDataResponse>;
-  /** Used by website */
+  ): Promise<GetUserDataResponse>;
   registerPNID(
     request: DeepPartial<RegisterPNIDRequest>,
     options?: CallOptions & CallOptionsExt,
