@@ -12,7 +12,7 @@ export interface GetUserDataResponse {
   pid: number;
   username: string;
   accessLevel: number;
-  serverAccessLevel: number;
+  serverAccessLevel: string;
   mii: Mii | undefined;
   creationDate: string;
   birthdate: string;
@@ -84,7 +84,7 @@ function createBaseGetUserDataResponse(): GetUserDataResponse {
     pid: 0,
     username: "",
     accessLevel: 0,
-    serverAccessLevel: 0,
+    serverAccessLevel: "",
     mii: undefined,
     creationDate: "",
     birthdate: "",
@@ -107,8 +107,8 @@ export const GetUserDataResponse = {
     if (message.accessLevel !== 0) {
       writer.uint32(24).uint32(message.accessLevel);
     }
-    if (message.serverAccessLevel !== 0) {
-      writer.uint32(32).uint32(message.serverAccessLevel);
+    if (message.serverAccessLevel !== "") {
+      writer.uint32(34).string(message.serverAccessLevel);
     }
     if (message.mii !== undefined) {
       Mii.encode(message.mii, writer.uint32(42).fork()).ldelim();
@@ -166,11 +166,11 @@ export const GetUserDataResponse = {
           message.accessLevel = reader.uint32();
           continue;
         case 4:
-          if (tag != 32) {
+          if (tag != 34) {
             break;
           }
 
-          message.serverAccessLevel = reader.uint32();
+          message.serverAccessLevel = reader.string();
           continue;
         case 5:
           if (tag != 42) {
@@ -242,7 +242,7 @@ export const GetUserDataResponse = {
       pid: isSet(object.pid) ? Number(object.pid) : 0,
       username: isSet(object.username) ? String(object.username) : "",
       accessLevel: isSet(object.accessLevel) ? Number(object.accessLevel) : 0,
-      serverAccessLevel: isSet(object.serverAccessLevel) ? Number(object.serverAccessLevel) : 0,
+      serverAccessLevel: isSet(object.serverAccessLevel) ? String(object.serverAccessLevel) : "",
       mii: isSet(object.mii) ? Mii.fromJSON(object.mii) : undefined,
       creationDate: isSet(object.creationDate) ? String(object.creationDate) : "",
       birthdate: isSet(object.birthdate) ? String(object.birthdate) : "",
@@ -259,7 +259,7 @@ export const GetUserDataResponse = {
     message.pid !== undefined && (obj.pid = Math.round(message.pid));
     message.username !== undefined && (obj.username = message.username);
     message.accessLevel !== undefined && (obj.accessLevel = Math.round(message.accessLevel));
-    message.serverAccessLevel !== undefined && (obj.serverAccessLevel = Math.round(message.serverAccessLevel));
+    message.serverAccessLevel !== undefined && (obj.serverAccessLevel = message.serverAccessLevel);
     message.mii !== undefined && (obj.mii = message.mii ? Mii.toJSON(message.mii) : undefined);
     message.creationDate !== undefined && (obj.creationDate = message.creationDate);
     message.birthdate !== undefined && (obj.birthdate = message.birthdate);
@@ -280,7 +280,7 @@ export const GetUserDataResponse = {
     message.pid = object.pid ?? 0;
     message.username = object.username ?? "";
     message.accessLevel = object.accessLevel ?? 0;
-    message.serverAccessLevel = object.serverAccessLevel ?? 0;
+    message.serverAccessLevel = object.serverAccessLevel ?? "";
     message.mii = (object.mii !== undefined && object.mii !== null) ? Mii.fromPartial(object.mii) : undefined;
     message.creationDate = object.creationDate ?? "";
     message.birthdate = object.birthdate ?? "";
