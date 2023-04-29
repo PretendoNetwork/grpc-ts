@@ -9,6 +9,7 @@ export interface GetUserDataRequest {
 }
 
 export interface GetUserDataResponse {
+  deleted: boolean;
   pid: number;
   username: string;
   accessLevel: number;
@@ -81,6 +82,7 @@ export const GetUserDataRequest = {
 
 function createBaseGetUserDataResponse(): GetUserDataResponse {
   return {
+    deleted: false,
     pid: 0,
     username: "",
     accessLevel: 0,
@@ -98,41 +100,44 @@ function createBaseGetUserDataResponse(): GetUserDataResponse {
 
 export const GetUserDataResponse = {
   encode(message: GetUserDataResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.deleted === true) {
+      writer.uint32(8).bool(message.deleted);
+    }
     if (message.pid !== 0) {
-      writer.uint32(8).uint32(message.pid);
+      writer.uint32(16).uint32(message.pid);
     }
     if (message.username !== "") {
-      writer.uint32(18).string(message.username);
+      writer.uint32(26).string(message.username);
     }
     if (message.accessLevel !== 0) {
-      writer.uint32(24).uint32(message.accessLevel);
+      writer.uint32(32).uint32(message.accessLevel);
     }
     if (message.serverAccessLevel !== "") {
-      writer.uint32(34).string(message.serverAccessLevel);
+      writer.uint32(42).string(message.serverAccessLevel);
     }
     if (message.mii !== undefined) {
-      Mii.encode(message.mii, writer.uint32(42).fork()).ldelim();
+      Mii.encode(message.mii, writer.uint32(50).fork()).ldelim();
     }
     if (message.creationDate !== "") {
-      writer.uint32(50).string(message.creationDate);
+      writer.uint32(58).string(message.creationDate);
     }
     if (message.birthdate !== "") {
-      writer.uint32(58).string(message.birthdate);
+      writer.uint32(66).string(message.birthdate);
     }
     if (message.gender !== "") {
-      writer.uint32(66).string(message.gender);
+      writer.uint32(74).string(message.gender);
     }
     if (message.country !== "") {
-      writer.uint32(74).string(message.country);
+      writer.uint32(82).string(message.country);
     }
     if (message.language !== "") {
-      writer.uint32(82).string(message.language);
+      writer.uint32(90).string(message.language);
     }
     if (message.emailAddress !== "") {
-      writer.uint32(90).string(message.emailAddress);
+      writer.uint32(98).string(message.emailAddress);
     }
     if (message.tierName !== "") {
-      writer.uint32(98).string(message.tierName);
+      writer.uint32(106).string(message.tierName);
     }
     return writer;
   },
@@ -149,80 +154,87 @@ export const GetUserDataResponse = {
             break;
           }
 
-          message.pid = reader.uint32();
+          message.deleted = reader.bool();
           continue;
         case 2:
-          if (tag != 18) {
+          if (tag != 16) {
+            break;
+          }
+
+          message.pid = reader.uint32();
+          continue;
+        case 3:
+          if (tag != 26) {
             break;
           }
 
           message.username = reader.string();
           continue;
-        case 3:
-          if (tag != 24) {
+        case 4:
+          if (tag != 32) {
             break;
           }
 
           message.accessLevel = reader.uint32();
-          continue;
-        case 4:
-          if (tag != 34) {
-            break;
-          }
-
-          message.serverAccessLevel = reader.string();
           continue;
         case 5:
           if (tag != 42) {
             break;
           }
 
-          message.mii = Mii.decode(reader, reader.uint32());
+          message.serverAccessLevel = reader.string();
           continue;
         case 6:
           if (tag != 50) {
             break;
           }
 
-          message.creationDate = reader.string();
+          message.mii = Mii.decode(reader, reader.uint32());
           continue;
         case 7:
           if (tag != 58) {
             break;
           }
 
-          message.birthdate = reader.string();
+          message.creationDate = reader.string();
           continue;
         case 8:
           if (tag != 66) {
             break;
           }
 
-          message.gender = reader.string();
+          message.birthdate = reader.string();
           continue;
         case 9:
           if (tag != 74) {
             break;
           }
 
-          message.country = reader.string();
+          message.gender = reader.string();
           continue;
         case 10:
           if (tag != 82) {
             break;
           }
 
-          message.language = reader.string();
+          message.country = reader.string();
           continue;
         case 11:
           if (tag != 90) {
             break;
           }
 
-          message.emailAddress = reader.string();
+          message.language = reader.string();
           continue;
         case 12:
           if (tag != 98) {
+            break;
+          }
+
+          message.emailAddress = reader.string();
+          continue;
+        case 13:
+          if (tag != 106) {
             break;
           }
 
@@ -239,6 +251,7 @@ export const GetUserDataResponse = {
 
   fromJSON(object: any): GetUserDataResponse {
     return {
+      deleted: isSet(object.deleted) ? Boolean(object.deleted) : false,
       pid: isSet(object.pid) ? Number(object.pid) : 0,
       username: isSet(object.username) ? String(object.username) : "",
       accessLevel: isSet(object.accessLevel) ? Number(object.accessLevel) : 0,
@@ -256,6 +269,7 @@ export const GetUserDataResponse = {
 
   toJSON(message: GetUserDataResponse): unknown {
     const obj: any = {};
+    message.deleted !== undefined && (obj.deleted = message.deleted);
     message.pid !== undefined && (obj.pid = Math.round(message.pid));
     message.username !== undefined && (obj.username = message.username);
     message.accessLevel !== undefined && (obj.accessLevel = Math.round(message.accessLevel));
@@ -277,6 +291,7 @@ export const GetUserDataResponse = {
 
   fromPartial(object: DeepPartial<GetUserDataResponse>): GetUserDataResponse {
     const message = createBaseGetUserDataResponse();
+    message.deleted = object.deleted ?? false;
     message.pid = object.pid ?? 0;
     message.username = object.username ?? "";
     message.accessLevel = object.accessLevel ?? 0;
