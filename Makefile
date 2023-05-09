@@ -1,6 +1,10 @@
 NODE_BIN=./node_modules/.bin
+PROTOS_PATH := grpc-protobufs
+PROTOS := $(filter-out $(PROTOS_PATH), $(notdir $(shell find $(PROTOS_PATH) -maxdepth 1 -type d)))
 
-build: pull npm_init account miiverse friends npm_build
+.PHONY: pull npm_init generate_code npm_build
+
+build: pull npm_init generate_code npm_build
 
 pull:
 	git submodule init
@@ -9,37 +13,17 @@ pull:
 npm_init:
 	test -d node_modules || npm i
 
-account:
-	mkdir -p src/account
+generate_code: $(PROTOS)
+
+$(PROTOS): %:
+	mkdir -p src/$@
 
 	$(NODE_BIN)/grpc_tools_node_protoc \
 	--plugin=protoc-gen-ts_proto=$(NODE_BIN)/protoc-gen-ts_proto \
-	--ts_proto_out=src/account \
+	--ts_proto_out=src/$@ \
 	--ts_proto_opt=outputServices=nice-grpc,outputServices=generic-definitions,useExactTypes=false,esModuleInterop=true \
-	--proto_path=grpc-protobufs/account \
-	grpc-protobufs/account/*.proto
-
-miiverse:
-	mkdir -p src/miiverse
-
-	$(NODE_BIN)/grpc_tools_node_protoc \
-	--plugin=protoc-gen-ts_proto=$(NODE_BIN)/protoc-gen-ts_proto \
-	--ts_proto_out=src/miiverse \
-	--ts_proto_opt=outputServices=nice-grpc,outputServices=generic-definitions,useExactTypes=false,esModuleInterop=true \
-	--proto_path=grpc-protobufs/miiverse \
-	grpc-protobufs/miiverse/*.proto
-
-friends:
-	mkdir -p src/friends
-
-	$(NODE_BIN)/grpc_tools_node_protoc \
-	--plugin=protoc-gen-ts_proto=$(NODE_BIN)/protoc-gen-ts_proto \
-	--ts_proto_out=src/friends \
-	--ts_proto_opt=outputServices=nice-grpc,outputServices=generic-definitions,useExactTypes=false,esModuleInterop=true \
-	--proto_path=grpc-protobufs/friends \
-	grpc-protobufs/friends/*.proto
+	--proto_path=$(PROTOS_PATH)/$@ \
+	$(PROTOS_PATH)/$@/*.proto
 
 npm_build:
 	npm run build
-
-.PHONY: pull npm_init account miiverse friends npm_build
