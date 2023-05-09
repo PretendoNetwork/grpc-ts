@@ -1,8 +1,6 @@
 /* eslint-disable */
 import type { CallContext, CallOptions } from "nice-grpc-common";
 import { GetUserDataRequest, GetUserDataResponse } from "./get_user_data_rpc";
-import { LoginRequest, LoginResponse } from "./login_rpc";
-import { RegisterPNIDRequest } from "./register_pnid_rpc";
 
 export const protobufPackage = "account";
 
@@ -19,22 +17,6 @@ export const AccountDefinition = {
       responseStream: false,
       options: {},
     },
-    registerPNID: {
-      name: "RegisterPNID",
-      requestType: RegisterPNIDRequest,
-      requestStream: false,
-      responseType: LoginResponse,
-      responseStream: false,
-      options: {},
-    },
-    login: {
-      name: "Login",
-      requestType: LoginRequest,
-      requestStream: false,
-      responseType: LoginResponse,
-      responseStream: false,
-      options: {},
-    },
   },
 } as const;
 
@@ -43,11 +25,6 @@ export interface AccountServiceImplementation<CallContextExt = {}> {
     request: GetUserDataRequest,
     context: CallContext & CallContextExt,
   ): Promise<DeepPartial<GetUserDataResponse>>;
-  registerPNID(
-    request: RegisterPNIDRequest,
-    context: CallContext & CallContextExt,
-  ): Promise<DeepPartial<LoginResponse>>;
-  login(request: LoginRequest, context: CallContext & CallContextExt): Promise<DeepPartial<LoginResponse>>;
 }
 
 export interface AccountClient<CallOptionsExt = {}> {
@@ -55,11 +32,6 @@ export interface AccountClient<CallOptionsExt = {}> {
     request: DeepPartial<GetUserDataRequest>,
     options?: CallOptions & CallOptionsExt,
   ): Promise<GetUserDataResponse>;
-  registerPNID(
-    request: DeepPartial<RegisterPNIDRequest>,
-    options?: CallOptions & CallOptionsExt,
-  ): Promise<LoginResponse>;
-  login(request: DeepPartial<LoginRequest>, options?: CallOptions & CallOptionsExt): Promise<LoginResponse>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;

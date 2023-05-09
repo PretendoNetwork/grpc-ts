@@ -1,11 +1,13 @@
 /* eslint-disable */
 import _m0 from "protobufjs/minimal";
 
-export const protobufPackage = "account";
+export const protobufPackage = "api";
 
 export interface LoginRequest {
-  username: string;
-  password: string;
+  grantType: string;
+  username?: string | undefined;
+  password?: string | undefined;
+  refreshToken?: string | undefined;
 }
 
 export interface LoginResponse {
@@ -16,16 +18,22 @@ export interface LoginResponse {
 }
 
 function createBaseLoginRequest(): LoginRequest {
-  return { username: "", password: "" };
+  return { grantType: "", username: undefined, password: undefined, refreshToken: undefined };
 }
 
 export const LoginRequest = {
   encode(message: LoginRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.username !== "") {
-      writer.uint32(10).string(message.username);
+    if (message.grantType !== "") {
+      writer.uint32(10).string(message.grantType);
     }
-    if (message.password !== "") {
-      writer.uint32(18).string(message.password);
+    if (message.username !== undefined) {
+      writer.uint32(18).string(message.username);
+    }
+    if (message.password !== undefined) {
+      writer.uint32(26).string(message.password);
+    }
+    if (message.refreshToken !== undefined) {
+      writer.uint32(34).string(message.refreshToken);
     }
     return writer;
   },
@@ -42,14 +50,28 @@ export const LoginRequest = {
             break;
           }
 
-          message.username = reader.string();
+          message.grantType = reader.string();
           continue;
         case 2:
           if (tag != 18) {
             break;
           }
 
+          message.username = reader.string();
+          continue;
+        case 3:
+          if (tag != 26) {
+            break;
+          }
+
           message.password = reader.string();
+          continue;
+        case 4:
+          if (tag != 34) {
+            break;
+          }
+
+          message.refreshToken = reader.string();
           continue;
       }
       if ((tag & 7) == 4 || tag == 0) {
@@ -62,15 +84,19 @@ export const LoginRequest = {
 
   fromJSON(object: any): LoginRequest {
     return {
-      username: isSet(object.username) ? String(object.username) : "",
-      password: isSet(object.password) ? String(object.password) : "",
+      grantType: isSet(object.grantType) ? String(object.grantType) : "",
+      username: isSet(object.username) ? String(object.username) : undefined,
+      password: isSet(object.password) ? String(object.password) : undefined,
+      refreshToken: isSet(object.refreshToken) ? String(object.refreshToken) : undefined,
     };
   },
 
   toJSON(message: LoginRequest): unknown {
     const obj: any = {};
+    message.grantType !== undefined && (obj.grantType = message.grantType);
     message.username !== undefined && (obj.username = message.username);
     message.password !== undefined && (obj.password = message.password);
+    message.refreshToken !== undefined && (obj.refreshToken = message.refreshToken);
     return obj;
   },
 
@@ -80,8 +106,10 @@ export const LoginRequest = {
 
   fromPartial(object: DeepPartial<LoginRequest>): LoginRequest {
     const message = createBaseLoginRequest();
-    message.username = object.username ?? "";
-    message.password = object.password ?? "";
+    message.grantType = object.grantType ?? "";
+    message.username = object.username ?? undefined;
+    message.password = object.password ?? undefined;
+    message.refreshToken = object.refreshToken ?? undefined;
     return message;
   },
 };

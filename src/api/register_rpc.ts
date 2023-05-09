@@ -1,44 +1,48 @@
 /* eslint-disable */
 import _m0 from "protobufjs/minimal";
 
-export const protobufPackage = "account";
+export const protobufPackage = "api";
 
-export interface RegisterPNIDRequest {
+export interface RegisterRequest {
   email: string;
   username: string;
+  miiName: string;
   password: string;
   passwordConfirm: string;
-  hCaptchaResponse: string;
+  captchaResponse?: string | undefined;
 }
 
-function createBaseRegisterPNIDRequest(): RegisterPNIDRequest {
-  return { email: "", username: "", password: "", passwordConfirm: "", hCaptchaResponse: "" };
+function createBaseRegisterRequest(): RegisterRequest {
+  return { email: "", username: "", miiName: "", password: "", passwordConfirm: "", captchaResponse: undefined };
 }
 
-export const RegisterPNIDRequest = {
-  encode(message: RegisterPNIDRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const RegisterRequest = {
+  encode(message: RegisterRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.email !== "") {
       writer.uint32(10).string(message.email);
     }
     if (message.username !== "") {
       writer.uint32(18).string(message.username);
     }
+    if (message.miiName !== "") {
+      writer.uint32(26).string(message.miiName);
+    }
     if (message.password !== "") {
-      writer.uint32(26).string(message.password);
+      writer.uint32(34).string(message.password);
     }
     if (message.passwordConfirm !== "") {
-      writer.uint32(34).string(message.passwordConfirm);
+      writer.uint32(42).string(message.passwordConfirm);
     }
-    if (message.hCaptchaResponse !== "") {
-      writer.uint32(42).string(message.hCaptchaResponse);
+    if (message.captchaResponse !== undefined) {
+      writer.uint32(50).string(message.captchaResponse);
     }
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): RegisterPNIDRequest {
+  decode(input: _m0.Reader | Uint8Array, length?: number): RegisterRequest {
     const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseRegisterPNIDRequest();
+    const message = createBaseRegisterRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -61,21 +65,28 @@ export const RegisterPNIDRequest = {
             break;
           }
 
-          message.password = reader.string();
+          message.miiName = reader.string();
           continue;
         case 4:
           if (tag != 34) {
             break;
           }
 
-          message.passwordConfirm = reader.string();
+          message.password = reader.string();
           continue;
         case 5:
           if (tag != 42) {
             break;
           }
 
-          message.hCaptchaResponse = reader.string();
+          message.passwordConfirm = reader.string();
+          continue;
+        case 6:
+          if (tag != 50) {
+            break;
+          }
+
+          message.captchaResponse = reader.string();
           continue;
       }
       if ((tag & 7) == 4 || tag == 0) {
@@ -86,37 +97,40 @@ export const RegisterPNIDRequest = {
     return message;
   },
 
-  fromJSON(object: any): RegisterPNIDRequest {
+  fromJSON(object: any): RegisterRequest {
     return {
       email: isSet(object.email) ? String(object.email) : "",
       username: isSet(object.username) ? String(object.username) : "",
+      miiName: isSet(object.miiName) ? String(object.miiName) : "",
       password: isSet(object.password) ? String(object.password) : "",
       passwordConfirm: isSet(object.passwordConfirm) ? String(object.passwordConfirm) : "",
-      hCaptchaResponse: isSet(object.hCaptchaResponse) ? String(object.hCaptchaResponse) : "",
+      captchaResponse: isSet(object.captchaResponse) ? String(object.captchaResponse) : undefined,
     };
   },
 
-  toJSON(message: RegisterPNIDRequest): unknown {
+  toJSON(message: RegisterRequest): unknown {
     const obj: any = {};
     message.email !== undefined && (obj.email = message.email);
     message.username !== undefined && (obj.username = message.username);
+    message.miiName !== undefined && (obj.miiName = message.miiName);
     message.password !== undefined && (obj.password = message.password);
     message.passwordConfirm !== undefined && (obj.passwordConfirm = message.passwordConfirm);
-    message.hCaptchaResponse !== undefined && (obj.hCaptchaResponse = message.hCaptchaResponse);
+    message.captchaResponse !== undefined && (obj.captchaResponse = message.captchaResponse);
     return obj;
   },
 
-  create(base?: DeepPartial<RegisterPNIDRequest>): RegisterPNIDRequest {
-    return RegisterPNIDRequest.fromPartial(base ?? {});
+  create(base?: DeepPartial<RegisterRequest>): RegisterRequest {
+    return RegisterRequest.fromPartial(base ?? {});
   },
 
-  fromPartial(object: DeepPartial<RegisterPNIDRequest>): RegisterPNIDRequest {
-    const message = createBaseRegisterPNIDRequest();
+  fromPartial(object: DeepPartial<RegisterRequest>): RegisterRequest {
+    const message = createBaseRegisterRequest();
     message.email = object.email ?? "";
     message.username = object.username ?? "";
+    message.miiName = object.miiName ?? "";
     message.password = object.password ?? "";
     message.passwordConfirm = object.passwordConfirm ?? "";
-    message.hCaptchaResponse = object.hCaptchaResponse ?? "";
+    message.captchaResponse = object.captchaResponse ?? undefined;
     return message;
   },
 };
