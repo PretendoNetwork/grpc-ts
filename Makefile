@@ -2,8 +2,6 @@ NODE_BIN=./node_modules/.bin
 PROTOS_PATH := grpc-protobufs
 PROTOS := $(filter-out $(PROTOS_PATH), $(notdir $(shell find $(PROTOS_PATH) -maxdepth 1 -type d)))
 
-.PHONY: pull npm_init generate_code npm_build
-
 build: pull npm_init generate_code npm_build
 
 pull:
