@@ -10,7 +10,9 @@ export interface SetStripeConnectionDataRequest {
   priceId?: string | undefined;
   tierLevel?: number | undefined;
   tierName?: string | undefined;
-  latestWebhookTimestamp: number;
+  timestamp: number;
+  accessLevel?: number | undefined;
+  serverAccessLevel?: number | undefined;
 }
 
 function createBaseSetStripeConnectionDataRequest(): SetStripeConnectionDataRequest {
@@ -20,7 +22,9 @@ function createBaseSetStripeConnectionDataRequest(): SetStripeConnectionDataRequ
     priceId: undefined,
     tierLevel: undefined,
     tierName: undefined,
-    latestWebhookTimestamp: 0,
+    timestamp: 0,
+    accessLevel: undefined,
+    serverAccessLevel: undefined,
   };
 }
 
@@ -41,8 +45,14 @@ export const SetStripeConnectionDataRequest = {
     if (message.tierName !== undefined) {
       writer.uint32(42).string(message.tierName);
     }
-    if (message.latestWebhookTimestamp !== 0) {
-      writer.uint32(48).uint64(message.latestWebhookTimestamp);
+    if (message.timestamp !== 0) {
+      writer.uint32(48).uint64(message.timestamp);
+    }
+    if (message.accessLevel !== undefined) {
+      writer.uint32(56).uint32(message.accessLevel);
+    }
+    if (message.serverAccessLevel !== undefined) {
+      writer.uint32(64).uint32(message.serverAccessLevel);
     }
     return writer;
   },
@@ -94,7 +104,21 @@ export const SetStripeConnectionDataRequest = {
             break;
           }
 
-          message.latestWebhookTimestamp = longToNumber(reader.uint64() as Long);
+          message.timestamp = longToNumber(reader.uint64() as Long);
+          continue;
+        case 7:
+          if (tag != 56) {
+            break;
+          }
+
+          message.accessLevel = reader.uint32();
+          continue;
+        case 8:
+          if (tag != 64) {
+            break;
+          }
+
+          message.serverAccessLevel = reader.uint32();
           continue;
       }
       if ((tag & 7) == 4 || tag == 0) {
@@ -112,7 +136,9 @@ export const SetStripeConnectionDataRequest = {
       priceId: isSet(object.priceId) ? String(object.priceId) : undefined,
       tierLevel: isSet(object.tierLevel) ? Number(object.tierLevel) : undefined,
       tierName: isSet(object.tierName) ? String(object.tierName) : undefined,
-      latestWebhookTimestamp: isSet(object.latestWebhookTimestamp) ? Number(object.latestWebhookTimestamp) : 0,
+      timestamp: isSet(object.timestamp) ? Number(object.timestamp) : 0,
+      accessLevel: isSet(object.accessLevel) ? Number(object.accessLevel) : undefined,
+      serverAccessLevel: isSet(object.serverAccessLevel) ? Number(object.serverAccessLevel) : undefined,
     };
   },
 
@@ -123,8 +149,9 @@ export const SetStripeConnectionDataRequest = {
     message.priceId !== undefined && (obj.priceId = message.priceId);
     message.tierLevel !== undefined && (obj.tierLevel = Math.round(message.tierLevel));
     message.tierName !== undefined && (obj.tierName = message.tierName);
-    message.latestWebhookTimestamp !== undefined &&
-      (obj.latestWebhookTimestamp = Math.round(message.latestWebhookTimestamp));
+    message.timestamp !== undefined && (obj.timestamp = Math.round(message.timestamp));
+    message.accessLevel !== undefined && (obj.accessLevel = Math.round(message.accessLevel));
+    message.serverAccessLevel !== undefined && (obj.serverAccessLevel = Math.round(message.serverAccessLevel));
     return obj;
   },
 
@@ -139,7 +166,9 @@ export const SetStripeConnectionDataRequest = {
     message.priceId = object.priceId ?? undefined;
     message.tierLevel = object.tierLevel ?? undefined;
     message.tierName = object.tierName ?? undefined;
-    message.latestWebhookTimestamp = object.latestWebhookTimestamp ?? 0;
+    message.timestamp = object.timestamp ?? 0;
+    message.accessLevel = object.accessLevel ?? undefined;
+    message.serverAccessLevel = object.serverAccessLevel ?? undefined;
     return message;
   },
 };
