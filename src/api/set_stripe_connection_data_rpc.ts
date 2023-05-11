@@ -12,7 +12,7 @@ export interface SetStripeConnectionDataRequest {
   tierName?: string | undefined;
   timestamp: number;
   accessLevel?: number | undefined;
-  serverAccessLevel?: number | undefined;
+  serverAccessLevel?: string | undefined;
 }
 
 function createBaseSetStripeConnectionDataRequest(): SetStripeConnectionDataRequest {
@@ -52,7 +52,7 @@ export const SetStripeConnectionDataRequest = {
       writer.uint32(56).uint32(message.accessLevel);
     }
     if (message.serverAccessLevel !== undefined) {
-      writer.uint32(64).uint32(message.serverAccessLevel);
+      writer.uint32(66).string(message.serverAccessLevel);
     }
     return writer;
   },
@@ -114,11 +114,11 @@ export const SetStripeConnectionDataRequest = {
           message.accessLevel = reader.uint32();
           continue;
         case 8:
-          if (tag != 64) {
+          if (tag != 66) {
             break;
           }
 
-          message.serverAccessLevel = reader.uint32();
+          message.serverAccessLevel = reader.string();
           continue;
       }
       if ((tag & 7) == 4 || tag == 0) {
@@ -138,7 +138,7 @@ export const SetStripeConnectionDataRequest = {
       tierName: isSet(object.tierName) ? String(object.tierName) : undefined,
       timestamp: isSet(object.timestamp) ? Number(object.timestamp) : 0,
       accessLevel: isSet(object.accessLevel) ? Number(object.accessLevel) : undefined,
-      serverAccessLevel: isSet(object.serverAccessLevel) ? Number(object.serverAccessLevel) : undefined,
+      serverAccessLevel: isSet(object.serverAccessLevel) ? String(object.serverAccessLevel) : undefined,
     };
   },
 
@@ -151,7 +151,7 @@ export const SetStripeConnectionDataRequest = {
     message.tierName !== undefined && (obj.tierName = message.tierName);
     message.timestamp !== undefined && (obj.timestamp = Math.round(message.timestamp));
     message.accessLevel !== undefined && (obj.accessLevel = Math.round(message.accessLevel));
-    message.serverAccessLevel !== undefined && (obj.serverAccessLevel = Math.round(message.serverAccessLevel));
+    message.serverAccessLevel !== undefined && (obj.serverAccessLevel = message.serverAccessLevel);
     return obj;
   },
 
