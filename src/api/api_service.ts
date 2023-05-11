@@ -5,7 +5,6 @@ import { GetUserDataResponse } from "./get_user_data_rpc";
 import { Empty } from "./google/protobuf/empty";
 import { LoginRequest, LoginResponse } from "./login_rpc";
 import { RegisterRequest } from "./register_rpc";
-import { RemoveConnectionRequest } from "./remove_connection_rpc";
 import { ResetPasswordRequest } from "./reset_password_rpc";
 import { SetDiscordConnectionDataRequest } from "./set_discord_connection_data_rpc";
 import { SetStripeConnectionDataRequest } from "./set_stripe_connection_data_rpc";
@@ -82,14 +81,6 @@ export const APIDefinition = {
       responseStream: false,
       options: {},
     },
-    removeConnection: {
-      name: "RemoveConnection",
-      requestType: RemoveConnectionRequest,
-      requestStream: false,
-      responseType: Empty,
-      responseStream: false,
-      options: {},
-    },
   },
 } as const;
 
@@ -111,10 +102,6 @@ export interface APIServiceImplementation<CallContextExt = {}> {
     request: SetStripeConnectionDataRequest,
     context: CallContext & CallContextExt,
   ): Promise<DeepPartial<Empty>>;
-  removeConnection(
-    request: RemoveConnectionRequest,
-    context: CallContext & CallContextExt,
-  ): Promise<DeepPartial<Empty>>;
 }
 
 export interface APIClient<CallOptionsExt = {}> {
@@ -133,10 +120,6 @@ export interface APIClient<CallOptionsExt = {}> {
   ): Promise<Empty>;
   setStripeConnectionData(
     request: DeepPartial<SetStripeConnectionDataRequest>,
-    options?: CallOptions & CallOptionsExt,
-  ): Promise<Empty>;
-  removeConnection(
-    request: DeepPartial<RemoveConnectionRequest>,
     options?: CallOptions & CallOptionsExt,
   ): Promise<Empty>;
 }
