@@ -1,5 +1,6 @@
 /* eslint-disable */
 import type { CallContext, CallOptions } from "nice-grpc-common";
+import { GetNEXPasswordRequest, GetNEXPasswordResponse } from "./get_nex_password_rpc";
 import { GetUserDataRequest, GetUserDataResponse } from "./get_user_data_rpc";
 
 export const protobufPackage = "account";
@@ -17,6 +18,14 @@ export const AccountDefinition = {
       responseStream: false,
       options: {},
     },
+    getNEXPassword: {
+      name: "GetNEXPassword",
+      requestType: GetNEXPasswordRequest,
+      requestStream: false,
+      responseType: GetNEXPasswordResponse,
+      responseStream: false,
+      options: {},
+    },
   },
 } as const;
 
@@ -25,6 +34,10 @@ export interface AccountServiceImplementation<CallContextExt = {}> {
     request: GetUserDataRequest,
     context: CallContext & CallContextExt,
   ): Promise<DeepPartial<GetUserDataResponse>>;
+  getNEXPassword(
+    request: GetNEXPasswordRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<GetNEXPasswordResponse>>;
 }
 
 export interface AccountClient<CallOptionsExt = {}> {
@@ -32,6 +45,10 @@ export interface AccountClient<CallOptionsExt = {}> {
     request: DeepPartial<GetUserDataRequest>,
     options?: CallOptions & CallOptionsExt,
   ): Promise<GetUserDataResponse>;
+  getNEXPassword(
+    request: DeepPartial<GetNEXPasswordRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<GetNEXPasswordResponse>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;

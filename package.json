@@ -1,6 +1,6 @@
 {
 	"name": "pretendo-grpc-ts",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -13,10 +13,12 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"async": "^3.2.4",
 		"long": "^5.2.1",
 		"protobufjs": "^7.2.3"
 	},
 	"devDependencies": {
+		"@types/async": "^3.2.20",
 		"grpc-tools": "^1.12.4",
 		"nice-grpc": "^2.1.4",
 		"ts-proto": "^1.146.0",
