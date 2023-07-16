@@ -1,5 +1,6 @@
 /* eslint-disable */
 import type { CallContext, CallOptions } from "nice-grpc-common";
+import { GetNEXDataRequest, GetNEXDataResponse } from "./get_nex_data_rpc";
 import { GetNEXPasswordRequest, GetNEXPasswordResponse } from "./get_nex_password_rpc";
 import { GetUserDataRequest, GetUserDataResponse } from "./get_user_data_rpc";
 
@@ -26,6 +27,14 @@ export const AccountDefinition = {
       responseStream: false,
       options: {},
     },
+    getNEXData: {
+      name: "GetNEXData",
+      requestType: GetNEXDataRequest,
+      requestStream: false,
+      responseType: GetNEXDataResponse,
+      responseStream: false,
+      options: {},
+    },
   },
 } as const;
 
@@ -38,6 +47,10 @@ export interface AccountServiceImplementation<CallContextExt = {}> {
     request: GetNEXPasswordRequest,
     context: CallContext & CallContextExt,
   ): Promise<DeepPartial<GetNEXPasswordResponse>>;
+  getNEXData(
+    request: GetNEXDataRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<GetNEXDataResponse>>;
 }
 
 export interface AccountClient<CallOptionsExt = {}> {
@@ -49,6 +62,10 @@ export interface AccountClient<CallOptionsExt = {}> {
     request: DeepPartial<GetNEXPasswordRequest>,
     options?: CallOptions & CallOptionsExt,
   ): Promise<GetNEXPasswordResponse>;
+  getNEXData(
+    request: DeepPartial<GetNEXDataRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<GetNEXDataResponse>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
