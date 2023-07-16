@@ -65,63 +65,63 @@ export const SetStripeConnectionDataRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 10) {
+          if (tag !== 10) {
             break;
           }
 
           message.customerId = reader.string();
           continue;
         case 2:
-          if (tag != 18) {
+          if (tag !== 18) {
             break;
           }
 
           message.subscriptionId = reader.string();
           continue;
         case 3:
-          if (tag != 26) {
+          if (tag !== 26) {
             break;
           }
 
           message.priceId = reader.string();
           continue;
         case 4:
-          if (tag != 32) {
+          if (tag !== 32) {
             break;
           }
 
           message.tierLevel = reader.uint32();
           continue;
         case 5:
-          if (tag != 42) {
+          if (tag !== 42) {
             break;
           }
 
           message.tierName = reader.string();
           continue;
         case 6:
-          if (tag != 48) {
+          if (tag !== 48) {
             break;
           }
 
           message.timestamp = longToNumber(reader.uint64() as Long);
           continue;
         case 7:
-          if (tag != 56) {
+          if (tag !== 56) {
             break;
           }
 
           message.accessLevel = reader.uint32();
           continue;
         case 8:
-          if (tag != 66) {
+          if (tag !== 66) {
             break;
           }
 
           message.serverAccessLevel = reader.string();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -144,14 +144,30 @@ export const SetStripeConnectionDataRequest = {
 
   toJSON(message: SetStripeConnectionDataRequest): unknown {
     const obj: any = {};
-    message.customerId !== undefined && (obj.customerId = message.customerId);
-    message.subscriptionId !== undefined && (obj.subscriptionId = message.subscriptionId);
-    message.priceId !== undefined && (obj.priceId = message.priceId);
-    message.tierLevel !== undefined && (obj.tierLevel = Math.round(message.tierLevel));
-    message.tierName !== undefined && (obj.tierName = message.tierName);
-    message.timestamp !== undefined && (obj.timestamp = Math.round(message.timestamp));
-    message.accessLevel !== undefined && (obj.accessLevel = Math.round(message.accessLevel));
-    message.serverAccessLevel !== undefined && (obj.serverAccessLevel = message.serverAccessLevel);
+    if (message.customerId !== undefined) {
+      obj.customerId = message.customerId;
+    }
+    if (message.subscriptionId !== undefined) {
+      obj.subscriptionId = message.subscriptionId;
+    }
+    if (message.priceId !== undefined) {
+      obj.priceId = message.priceId;
+    }
+    if (message.tierLevel !== undefined) {
+      obj.tierLevel = Math.round(message.tierLevel);
+    }
+    if (message.tierName !== undefined) {
+      obj.tierName = message.tierName;
+    }
+    if (message.timestamp !== 0) {
+      obj.timestamp = Math.round(message.timestamp);
+    }
+    if (message.accessLevel !== undefined) {
+      obj.accessLevel = Math.round(message.accessLevel);
+    }
+    if (message.serverAccessLevel !== undefined) {
+      obj.serverAccessLevel = message.serverAccessLevel;
+    }
     return obj;
   },
 
@@ -173,10 +189,10 @@ export const SetStripeConnectionDataRequest = {
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var tsProtoGlobalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }

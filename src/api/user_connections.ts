@@ -42,14 +42,14 @@ export const DiscordConnection = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 10) {
+          if (tag !== 10) {
             break;
           }
 
           message.id = reader.string();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -63,7 +63,9 @@ export const DiscordConnection = {
 
   toJSON(message: DiscordConnection): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = message.id);
+    if (message.id !== "") {
+      obj.id = message.id;
+    }
     return obj;
   },
 
@@ -120,49 +122,49 @@ export const StripeConnection = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 10) {
+          if (tag !== 10) {
             break;
           }
 
           message.customerId = reader.string();
           continue;
         case 2:
-          if (tag != 18) {
+          if (tag !== 18) {
             break;
           }
 
           message.subscriptionId = reader.string();
           continue;
         case 3:
-          if (tag != 26) {
+          if (tag !== 26) {
             break;
           }
 
           message.priceId = reader.string();
           continue;
         case 4:
-          if (tag != 32) {
+          if (tag !== 32) {
             break;
           }
 
           message.tierLevel = reader.uint32();
           continue;
         case 5:
-          if (tag != 42) {
+          if (tag !== 42) {
             break;
           }
 
           message.tierName = reader.string();
           continue;
         case 6:
-          if (tag != 48) {
+          if (tag !== 48) {
             break;
           }
 
           message.latestWebhookTimestamp = longToNumber(reader.uint64() as Long);
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -183,13 +185,24 @@ export const StripeConnection = {
 
   toJSON(message: StripeConnection): unknown {
     const obj: any = {};
-    message.customerId !== undefined && (obj.customerId = message.customerId);
-    message.subscriptionId !== undefined && (obj.subscriptionId = message.subscriptionId);
-    message.priceId !== undefined && (obj.priceId = message.priceId);
-    message.tierLevel !== undefined && (obj.tierLevel = Math.round(message.tierLevel));
-    message.tierName !== undefined && (obj.tierName = message.tierName);
-    message.latestWebhookTimestamp !== undefined &&
-      (obj.latestWebhookTimestamp = Math.round(message.latestWebhookTimestamp));
+    if (message.customerId !== undefined) {
+      obj.customerId = message.customerId;
+    }
+    if (message.subscriptionId !== undefined) {
+      obj.subscriptionId = message.subscriptionId;
+    }
+    if (message.priceId !== undefined) {
+      obj.priceId = message.priceId;
+    }
+    if (message.tierLevel !== undefined) {
+      obj.tierLevel = Math.round(message.tierLevel);
+    }
+    if (message.tierName !== undefined) {
+      obj.tierName = message.tierName;
+    }
+    if (message.latestWebhookTimestamp !== 0) {
+      obj.latestWebhookTimestamp = Math.round(message.latestWebhookTimestamp);
+    }
     return obj;
   },
 
@@ -232,21 +245,21 @@ export const UserConnections = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 10) {
+          if (tag !== 10) {
             break;
           }
 
           message.discord = DiscordConnection.decode(reader, reader.uint32());
           continue;
         case 2:
-          if (tag != 18) {
+          if (tag !== 18) {
             break;
           }
 
           message.stripe = StripeConnection.decode(reader, reader.uint32());
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -263,9 +276,12 @@ export const UserConnections = {
 
   toJSON(message: UserConnections): unknown {
     const obj: any = {};
-    message.discord !== undefined &&
-      (obj.discord = message.discord ? DiscordConnection.toJSON(message.discord) : undefined);
-    message.stripe !== undefined && (obj.stripe = message.stripe ? StripeConnection.toJSON(message.stripe) : undefined);
+    if (message.discord !== undefined) {
+      obj.discord = DiscordConnection.toJSON(message.discord);
+    }
+    if (message.stripe !== undefined) {
+      obj.stripe = StripeConnection.toJSON(message.stripe);
+    }
     return obj;
   },
 
@@ -285,10 +301,10 @@ export const UserConnections = {
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var tsProtoGlobalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }

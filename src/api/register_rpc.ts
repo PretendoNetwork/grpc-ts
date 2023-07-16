@@ -47,49 +47,49 @@ export const RegisterRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 10) {
+          if (tag !== 10) {
             break;
           }
 
           message.email = reader.string();
           continue;
         case 2:
-          if (tag != 18) {
+          if (tag !== 18) {
             break;
           }
 
           message.username = reader.string();
           continue;
         case 3:
-          if (tag != 26) {
+          if (tag !== 26) {
             break;
           }
 
           message.miiName = reader.string();
           continue;
         case 4:
-          if (tag != 34) {
+          if (tag !== 34) {
             break;
           }
 
           message.password = reader.string();
           continue;
         case 5:
-          if (tag != 42) {
+          if (tag !== 42) {
             break;
           }
 
           message.passwordConfirm = reader.string();
           continue;
         case 6:
-          if (tag != 50) {
+          if (tag !== 50) {
             break;
           }
 
           message.captchaResponse = reader.string();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -110,12 +110,24 @@ export const RegisterRequest = {
 
   toJSON(message: RegisterRequest): unknown {
     const obj: any = {};
-    message.email !== undefined && (obj.email = message.email);
-    message.username !== undefined && (obj.username = message.username);
-    message.miiName !== undefined && (obj.miiName = message.miiName);
-    message.password !== undefined && (obj.password = message.password);
-    message.passwordConfirm !== undefined && (obj.passwordConfirm = message.passwordConfirm);
-    message.captchaResponse !== undefined && (obj.captchaResponse = message.captchaResponse);
+    if (message.email !== "") {
+      obj.email = message.email;
+    }
+    if (message.username !== "") {
+      obj.username = message.username;
+    }
+    if (message.miiName !== "") {
+      obj.miiName = message.miiName;
+    }
+    if (message.password !== "") {
+      obj.password = message.password;
+    }
+    if (message.passwordConfirm !== "") {
+      obj.passwordConfirm = message.passwordConfirm;
+    }
+    if (message.captchaResponse !== undefined) {
+      obj.captchaResponse = message.captchaResponse;
+    }
     return obj;
   },
 

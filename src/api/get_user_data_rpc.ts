@@ -106,119 +106,119 @@ export const GetUserDataResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.deleted = reader.bool();
           continue;
         case 2:
-          if (tag != 18) {
+          if (tag !== 18) {
             break;
           }
 
           message.creationDate = reader.string();
           continue;
         case 3:
-          if (tag != 26) {
+          if (tag !== 26) {
             break;
           }
 
           message.updatedDate = reader.string();
           continue;
         case 4:
-          if (tag != 32) {
+          if (tag !== 32) {
             break;
           }
 
           message.pid = reader.uint32();
           continue;
         case 5:
-          if (tag != 42) {
+          if (tag !== 42) {
             break;
           }
 
           message.username = reader.string();
           continue;
         case 6:
-          if (tag != 48) {
+          if (tag !== 48) {
             break;
           }
 
           message.accessLevel = reader.uint32();
           continue;
         case 7:
-          if (tag != 58) {
+          if (tag !== 58) {
             break;
           }
 
           message.serverAccessLevel = reader.string();
           continue;
         case 8:
-          if (tag != 66) {
+          if (tag !== 66) {
             break;
           }
 
           message.mii = Mii.decode(reader, reader.uint32());
           continue;
         case 9:
-          if (tag != 74) {
+          if (tag !== 74) {
             break;
           }
 
           message.birthday = reader.string();
           continue;
         case 10:
-          if (tag != 82) {
+          if (tag !== 82) {
             break;
           }
 
           message.gender = reader.string();
           continue;
         case 11:
-          if (tag != 90) {
+          if (tag !== 90) {
             break;
           }
 
           message.country = reader.string();
           continue;
         case 12:
-          if (tag != 98) {
+          if (tag !== 98) {
             break;
           }
 
           message.timezone = reader.string();
           continue;
         case 13:
-          if (tag != 106) {
+          if (tag !== 106) {
             break;
           }
 
           message.language = reader.string();
           continue;
         case 14:
-          if (tag != 114) {
+          if (tag !== 114) {
             break;
           }
 
           message.emailAddress = reader.string();
           continue;
         case 15:
-          if (tag != 122) {
+          if (tag !== 122) {
             break;
           }
 
           message.connections = UserConnections.decode(reader, reader.uint32());
           continue;
         case 16:
-          if (tag != 128) {
+          if (tag !== 128) {
             break;
           }
 
           message.marketingFlag = reader.bool();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -249,23 +249,54 @@ export const GetUserDataResponse = {
 
   toJSON(message: GetUserDataResponse): unknown {
     const obj: any = {};
-    message.deleted !== undefined && (obj.deleted = message.deleted);
-    message.creationDate !== undefined && (obj.creationDate = message.creationDate);
-    message.updatedDate !== undefined && (obj.updatedDate = message.updatedDate);
-    message.pid !== undefined && (obj.pid = Math.round(message.pid));
-    message.username !== undefined && (obj.username = message.username);
-    message.accessLevel !== undefined && (obj.accessLevel = Math.round(message.accessLevel));
-    message.serverAccessLevel !== undefined && (obj.serverAccessLevel = message.serverAccessLevel);
-    message.mii !== undefined && (obj.mii = message.mii ? Mii.toJSON(message.mii) : undefined);
-    message.birthday !== undefined && (obj.birthday = message.birthday);
-    message.gender !== undefined && (obj.gender = message.gender);
-    message.country !== undefined && (obj.country = message.country);
-    message.timezone !== undefined && (obj.timezone = message.timezone);
-    message.language !== undefined && (obj.language = message.language);
-    message.emailAddress !== undefined && (obj.emailAddress = message.emailAddress);
-    message.connections !== undefined &&
-      (obj.connections = message.connections ? UserConnections.toJSON(message.connections) : undefined);
-    message.marketingFlag !== undefined && (obj.marketingFlag = message.marketingFlag);
+    if (message.deleted === true) {
+      obj.deleted = message.deleted;
+    }
+    if (message.creationDate !== "") {
+      obj.creationDate = message.creationDate;
+    }
+    if (message.updatedDate !== "") {
+      obj.updatedDate = message.updatedDate;
+    }
+    if (message.pid !== 0) {
+      obj.pid = Math.round(message.pid);
+    }
+    if (message.username !== "") {
+      obj.username = message.username;
+    }
+    if (message.accessLevel !== 0) {
+      obj.accessLevel = Math.round(message.accessLevel);
+    }
+    if (message.serverAccessLevel !== "") {
+      obj.serverAccessLevel = message.serverAccessLevel;
+    }
+    if (message.mii !== undefined) {
+      obj.mii = Mii.toJSON(message.mii);
+    }
+    if (message.birthday !== "") {
+      obj.birthday = message.birthday;
+    }
+    if (message.gender !== "") {
+      obj.gender = message.gender;
+    }
+    if (message.country !== "") {
+      obj.country = message.country;
+    }
+    if (message.timezone !== "") {
+      obj.timezone = message.timezone;
+    }
+    if (message.language !== "") {
+      obj.language = message.language;
+    }
+    if (message.emailAddress !== "") {
+      obj.emailAddress = message.emailAddress;
+    }
+    if (message.connections !== undefined) {
+      obj.connections = UserConnections.toJSON(message.connections);
+    }
+    if (message.marketingFlag === true) {
+      obj.marketingFlag = message.marketingFlag;
+    }
     return obj;
   },
 

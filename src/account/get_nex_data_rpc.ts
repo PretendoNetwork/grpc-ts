@@ -36,14 +36,14 @@ export const GetNEXDataRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.pid = reader.uint32();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -57,7 +57,9 @@ export const GetNEXDataRequest = {
 
   toJSON(message: GetNEXDataRequest): unknown {
     const obj: any = {};
-    message.pid !== undefined && (obj.pid = Math.round(message.pid));
+    if (message.pid !== 0) {
+      obj.pid = Math.round(message.pid);
+    }
     return obj;
   },
 
@@ -107,49 +109,49 @@ export const GetNEXDataResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.pid = reader.uint32();
           continue;
         case 2:
-          if (tag != 18) {
+          if (tag !== 18) {
             break;
           }
 
           message.password = reader.string();
           continue;
         case 3:
-          if (tag != 24) {
+          if (tag !== 24) {
             break;
           }
 
           message.owningPid = reader.uint32();
           continue;
         case 4:
-          if (tag != 32) {
+          if (tag !== 32) {
             break;
           }
 
           message.accessLevel = reader.uint32();
           continue;
         case 5:
-          if (tag != 42) {
+          if (tag !== 42) {
             break;
           }
 
           message.serverAccessLevel = reader.string();
           continue;
         case 6:
-          if (tag != 50) {
+          if (tag !== 50) {
             break;
           }
 
           message.friendCode = reader.string();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -170,12 +172,24 @@ export const GetNEXDataResponse = {
 
   toJSON(message: GetNEXDataResponse): unknown {
     const obj: any = {};
-    message.pid !== undefined && (obj.pid = Math.round(message.pid));
-    message.password !== undefined && (obj.password = message.password);
-    message.owningPid !== undefined && (obj.owningPid = Math.round(message.owningPid));
-    message.accessLevel !== undefined && (obj.accessLevel = Math.round(message.accessLevel));
-    message.serverAccessLevel !== undefined && (obj.serverAccessLevel = message.serverAccessLevel);
-    message.friendCode !== undefined && (obj.friendCode = message.friendCode);
+    if (message.pid !== 0) {
+      obj.pid = Math.round(message.pid);
+    }
+    if (message.password !== "") {
+      obj.password = message.password;
+    }
+    if (message.owningPid !== 0) {
+      obj.owningPid = Math.round(message.owningPid);
+    }
+    if (message.accessLevel !== 0) {
+      obj.accessLevel = Math.round(message.accessLevel);
+    }
+    if (message.serverAccessLevel !== "") {
+      obj.serverAccessLevel = message.serverAccessLevel;
+    }
+    if (message.friendCode !== "") {
+      obj.friendCode = message.friendCode;
+    }
     return obj;
   },
 

@@ -9,7 +9,7 @@ export interface SendUserNotificationWiiURequest {
 }
 
 function createBaseSendUserNotificationWiiURequest(): SendUserNotificationWiiURequest {
-  return { pid: 0, notificationData: new Uint8Array() };
+  return { pid: 0, notificationData: new Uint8Array(0) };
 }
 
 export const SendUserNotificationWiiURequest = {
@@ -31,21 +31,21 @@ export const SendUserNotificationWiiURequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.pid = reader.uint32();
           continue;
         case 2:
-          if (tag != 18) {
+          if (tag !== 18) {
             break;
           }
 
           message.notificationData = reader.bytes();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -56,17 +56,18 @@ export const SendUserNotificationWiiURequest = {
   fromJSON(object: any): SendUserNotificationWiiURequest {
     return {
       pid: isSet(object.pid) ? Number(object.pid) : 0,
-      notificationData: isSet(object.notificationData) ? bytesFromBase64(object.notificationData) : new Uint8Array(),
+      notificationData: isSet(object.notificationData) ? bytesFromBase64(object.notificationData) : new Uint8Array(0),
     };
   },
 
   toJSON(message: SendUserNotificationWiiURequest): unknown {
     const obj: any = {};
-    message.pid !== undefined && (obj.pid = Math.round(message.pid));
-    message.notificationData !== undefined &&
-      (obj.notificationData = base64FromBytes(
-        message.notificationData !== undefined ? message.notificationData : new Uint8Array(),
-      ));
+    if (message.pid !== 0) {
+      obj.pid = Math.round(message.pid);
+    }
+    if (message.notificationData.length !== 0) {
+      obj.notificationData = base64FromBytes(message.notificationData);
+    }
     return obj;
   },
 
@@ -77,15 +78,15 @@ export const SendUserNotificationWiiURequest = {
   fromPartial(object: DeepPartial<SendUserNotificationWiiURequest>): SendUserNotificationWiiURequest {
     const message = createBaseSendUserNotificationWiiURequest();
     message.pid = object.pid ?? 0;
-    message.notificationData = object.notificationData ?? new Uint8Array();
+    message.notificationData = object.notificationData ?? new Uint8Array(0);
     return message;
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var tsProtoGlobalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }

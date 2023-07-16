@@ -44,14 +44,14 @@ export const GetUserDataRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.pid = reader.uint32();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -65,7 +65,9 @@ export const GetUserDataRequest = {
 
   toJSON(message: GetUserDataRequest): unknown {
     const obj: any = {};
-    message.pid !== undefined && (obj.pid = Math.round(message.pid));
+    if (message.pid !== 0) {
+      obj.pid = Math.round(message.pid);
+    }
     return obj;
   },
 
@@ -150,98 +152,98 @@ export const GetUserDataResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.deleted = reader.bool();
           continue;
         case 2:
-          if (tag != 16) {
+          if (tag !== 16) {
             break;
           }
 
           message.pid = reader.uint32();
           continue;
         case 3:
-          if (tag != 26) {
+          if (tag !== 26) {
             break;
           }
 
           message.username = reader.string();
           continue;
         case 4:
-          if (tag != 32) {
+          if (tag !== 32) {
             break;
           }
 
           message.accessLevel = reader.uint32();
           continue;
         case 5:
-          if (tag != 42) {
+          if (tag !== 42) {
             break;
           }
 
           message.serverAccessLevel = reader.string();
           continue;
         case 6:
-          if (tag != 50) {
+          if (tag !== 50) {
             break;
           }
 
           message.mii = Mii.decode(reader, reader.uint32());
           continue;
         case 7:
-          if (tag != 58) {
+          if (tag !== 58) {
             break;
           }
 
           message.creationDate = reader.string();
           continue;
         case 8:
-          if (tag != 66) {
+          if (tag !== 66) {
             break;
           }
 
           message.birthdate = reader.string();
           continue;
         case 9:
-          if (tag != 74) {
+          if (tag !== 74) {
             break;
           }
 
           message.gender = reader.string();
           continue;
         case 10:
-          if (tag != 82) {
+          if (tag !== 82) {
             break;
           }
 
           message.country = reader.string();
           continue;
         case 11:
-          if (tag != 90) {
+          if (tag !== 90) {
             break;
           }
 
           message.language = reader.string();
           continue;
         case 12:
-          if (tag != 98) {
+          if (tag !== 98) {
             break;
           }
 
           message.emailAddress = reader.string();
           continue;
         case 13:
-          if (tag != 106) {
+          if (tag !== 106) {
             break;
           }
 
           message.tierName = reader.string();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -269,19 +271,45 @@ export const GetUserDataResponse = {
 
   toJSON(message: GetUserDataResponse): unknown {
     const obj: any = {};
-    message.deleted !== undefined && (obj.deleted = message.deleted);
-    message.pid !== undefined && (obj.pid = Math.round(message.pid));
-    message.username !== undefined && (obj.username = message.username);
-    message.accessLevel !== undefined && (obj.accessLevel = Math.round(message.accessLevel));
-    message.serverAccessLevel !== undefined && (obj.serverAccessLevel = message.serverAccessLevel);
-    message.mii !== undefined && (obj.mii = message.mii ? Mii.toJSON(message.mii) : undefined);
-    message.creationDate !== undefined && (obj.creationDate = message.creationDate);
-    message.birthdate !== undefined && (obj.birthdate = message.birthdate);
-    message.gender !== undefined && (obj.gender = message.gender);
-    message.country !== undefined && (obj.country = message.country);
-    message.language !== undefined && (obj.language = message.language);
-    message.emailAddress !== undefined && (obj.emailAddress = message.emailAddress);
-    message.tierName !== undefined && (obj.tierName = message.tierName);
+    if (message.deleted === true) {
+      obj.deleted = message.deleted;
+    }
+    if (message.pid !== 0) {
+      obj.pid = Math.round(message.pid);
+    }
+    if (message.username !== "") {
+      obj.username = message.username;
+    }
+    if (message.accessLevel !== 0) {
+      obj.accessLevel = Math.round(message.accessLevel);
+    }
+    if (message.serverAccessLevel !== "") {
+      obj.serverAccessLevel = message.serverAccessLevel;
+    }
+    if (message.mii !== undefined) {
+      obj.mii = Mii.toJSON(message.mii);
+    }
+    if (message.creationDate !== "") {
+      obj.creationDate = message.creationDate;
+    }
+    if (message.birthdate !== "") {
+      obj.birthdate = message.birthdate;
+    }
+    if (message.gender !== "") {
+      obj.gender = message.gender;
+    }
+    if (message.country !== "") {
+      obj.country = message.country;
+    }
+    if (message.language !== "") {
+      obj.language = message.language;
+    }
+    if (message.emailAddress !== "") {
+      obj.emailAddress = message.emailAddress;
+    }
+    if (message.tierName !== "") {
+      obj.tierName = message.tierName;
+    }
     return obj;
   },
 

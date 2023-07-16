@@ -32,14 +32,14 @@ export const GetUserFriendRequestsIncomingRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.pid = reader.uint32();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -53,7 +53,9 @@ export const GetUserFriendRequestsIncomingRequest = {
 
   toJSON(message: GetUserFriendRequestsIncomingRequest): unknown {
     const obj: any = {};
-    message.pid !== undefined && (obj.pid = Math.round(message.pid));
+    if (message.pid !== 0) {
+      obj.pid = Math.round(message.pid);
+    }
     return obj;
   },
 
@@ -88,14 +90,14 @@ export const GetUserFriendRequestsIncomingResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 10) {
+          if (tag !== 10) {
             break;
           }
 
           message.friendRequests.push(FriendRequest.decode(reader, reader.uint32()));
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -113,10 +115,8 @@ export const GetUserFriendRequestsIncomingResponse = {
 
   toJSON(message: GetUserFriendRequestsIncomingResponse): unknown {
     const obj: any = {};
-    if (message.friendRequests) {
-      obj.friendRequests = message.friendRequests.map((e) => e ? FriendRequest.toJSON(e) : undefined);
-    } else {
-      obj.friendRequests = [];
+    if (message.friendRequests?.length) {
+      obj.friendRequests = message.friendRequests.map((e) => FriendRequest.toJSON(e));
     }
     return obj;
   },

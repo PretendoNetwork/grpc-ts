@@ -48,49 +48,49 @@ export const FriendRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.id = longToNumber(reader.uint64() as Long);
           continue;
         case 2:
-          if (tag != 16) {
+          if (tag !== 16) {
             break;
           }
 
           message.sender = reader.uint32();
           continue;
         case 3:
-          if (tag != 24) {
+          if (tag !== 24) {
             break;
           }
 
           message.recipient = reader.uint32();
           continue;
         case 4:
-          if (tag != 32) {
+          if (tag !== 32) {
             break;
           }
 
           message.sent = longToNumber(reader.uint64() as Long);
           continue;
         case 5:
-          if (tag != 40) {
+          if (tag !== 40) {
             break;
           }
 
           message.expires = longToNumber(reader.uint64() as Long);
           continue;
         case 6:
-          if (tag != 50) {
+          if (tag !== 50) {
             break;
           }
 
           message.message = reader.string();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -111,12 +111,24 @@ export const FriendRequest = {
 
   toJSON(message: FriendRequest): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = Math.round(message.id));
-    message.sender !== undefined && (obj.sender = Math.round(message.sender));
-    message.recipient !== undefined && (obj.recipient = Math.round(message.recipient));
-    message.sent !== undefined && (obj.sent = Math.round(message.sent));
-    message.expires !== undefined && (obj.expires = Math.round(message.expires));
-    message.message !== undefined && (obj.message = message.message);
+    if (message.id !== 0) {
+      obj.id = Math.round(message.id);
+    }
+    if (message.sender !== 0) {
+      obj.sender = Math.round(message.sender);
+    }
+    if (message.recipient !== 0) {
+      obj.recipient = Math.round(message.recipient);
+    }
+    if (message.sent !== 0) {
+      obj.sent = Math.round(message.sent);
+    }
+    if (message.expires !== 0) {
+      obj.expires = Math.round(message.expires);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
     return obj;
   },
 
@@ -136,10 +148,10 @@ export const FriendRequest = {
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var tsProtoGlobalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }

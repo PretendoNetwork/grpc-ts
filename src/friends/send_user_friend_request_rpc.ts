@@ -39,28 +39,28 @@ export const SendUserFriendRequestRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.sender = reader.uint32();
           continue;
         case 2:
-          if (tag != 16) {
+          if (tag !== 16) {
             break;
           }
 
           message.recipient = reader.uint32();
           continue;
         case 3:
-          if (tag != 26) {
+          if (tag !== 26) {
             break;
           }
 
           message.message = reader.string();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -78,9 +78,15 @@ export const SendUserFriendRequestRequest = {
 
   toJSON(message: SendUserFriendRequestRequest): unknown {
     const obj: any = {};
-    message.sender !== undefined && (obj.sender = Math.round(message.sender));
-    message.recipient !== undefined && (obj.recipient = Math.round(message.recipient));
-    message.message !== undefined && (obj.message = message.message);
+    if (message.sender !== 0) {
+      obj.sender = Math.round(message.sender);
+    }
+    if (message.recipient !== 0) {
+      obj.recipient = Math.round(message.recipient);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
     return obj;
   },
 
@@ -117,14 +123,14 @@ export const SendUserFriendRequestResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.success = reader.bool();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -138,7 +144,9 @@ export const SendUserFriendRequestResponse = {
 
   toJSON(message: SendUserFriendRequestResponse): unknown {
     const obj: any = {};
-    message.success !== undefined && (obj.success = message.success);
+    if (message.success === true) {
+      obj.success = message.success;
+    }
     return obj;
   },
 

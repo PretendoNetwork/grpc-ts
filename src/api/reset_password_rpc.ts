@@ -35,28 +35,28 @@ export const ResetPasswordRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 10) {
+          if (tag !== 10) {
             break;
           }
 
           message.password = reader.string();
           continue;
         case 2:
-          if (tag != 18) {
+          if (tag !== 18) {
             break;
           }
 
           message.passwordConfirm = reader.string();
           continue;
         case 3:
-          if (tag != 26) {
+          if (tag !== 26) {
             break;
           }
 
           message.token = reader.string();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -74,9 +74,15 @@ export const ResetPasswordRequest = {
 
   toJSON(message: ResetPasswordRequest): unknown {
     const obj: any = {};
-    message.password !== undefined && (obj.password = message.password);
-    message.passwordConfirm !== undefined && (obj.passwordConfirm = message.passwordConfirm);
-    message.token !== undefined && (obj.token = message.token);
+    if (message.password !== "") {
+      obj.password = message.password;
+    }
+    if (message.passwordConfirm !== "") {
+      obj.passwordConfirm = message.passwordConfirm;
+    }
+    if (message.token !== "") {
+      obj.token = message.token;
+    }
     return obj;
   },
 

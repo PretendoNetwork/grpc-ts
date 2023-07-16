@@ -46,35 +46,35 @@ export const LoginRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 10) {
+          if (tag !== 10) {
             break;
           }
 
           message.grantType = reader.string();
           continue;
         case 2:
-          if (tag != 18) {
+          if (tag !== 18) {
             break;
           }
 
           message.username = reader.string();
           continue;
         case 3:
-          if (tag != 26) {
+          if (tag !== 26) {
             break;
           }
 
           message.password = reader.string();
           continue;
         case 4:
-          if (tag != 34) {
+          if (tag !== 34) {
             break;
           }
 
           message.refreshToken = reader.string();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -93,10 +93,18 @@ export const LoginRequest = {
 
   toJSON(message: LoginRequest): unknown {
     const obj: any = {};
-    message.grantType !== undefined && (obj.grantType = message.grantType);
-    message.username !== undefined && (obj.username = message.username);
-    message.password !== undefined && (obj.password = message.password);
-    message.refreshToken !== undefined && (obj.refreshToken = message.refreshToken);
+    if (message.grantType !== "") {
+      obj.grantType = message.grantType;
+    }
+    if (message.username !== undefined) {
+      obj.username = message.username;
+    }
+    if (message.password !== undefined) {
+      obj.password = message.password;
+    }
+    if (message.refreshToken !== undefined) {
+      obj.refreshToken = message.refreshToken;
+    }
     return obj;
   },
 
@@ -143,35 +151,35 @@ export const LoginResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.expiresIn = reader.uint32();
           continue;
         case 2:
-          if (tag != 18) {
+          if (tag !== 18) {
             break;
           }
 
           message.tokenType = reader.string();
           continue;
         case 3:
-          if (tag != 26) {
+          if (tag !== 26) {
             break;
           }
 
           message.accessToken = reader.string();
           continue;
         case 4:
-          if (tag != 34) {
+          if (tag !== 34) {
             break;
           }
 
           message.refreshToken = reader.string();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -190,10 +198,18 @@ export const LoginResponse = {
 
   toJSON(message: LoginResponse): unknown {
     const obj: any = {};
-    message.expiresIn !== undefined && (obj.expiresIn = Math.round(message.expiresIn));
-    message.tokenType !== undefined && (obj.tokenType = message.tokenType);
-    message.accessToken !== undefined && (obj.accessToken = message.accessToken);
-    message.refreshToken !== undefined && (obj.refreshToken = message.refreshToken);
+    if (message.expiresIn !== 0) {
+      obj.expiresIn = Math.round(message.expiresIn);
+    }
+    if (message.tokenType !== "") {
+      obj.tokenType = message.tokenType;
+    }
+    if (message.accessToken !== "") {
+      obj.accessToken = message.accessToken;
+    }
+    if (message.refreshToken !== "") {
+      obj.refreshToken = message.refreshToken;
+    }
     return obj;
   },
 

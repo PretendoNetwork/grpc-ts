@@ -32,14 +32,14 @@ export const DenyFriendRequestRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.friendRequestId = longToNumber(reader.uint64() as Long);
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -53,7 +53,9 @@ export const DenyFriendRequestRequest = {
 
   toJSON(message: DenyFriendRequestRequest): unknown {
     const obj: any = {};
-    message.friendRequestId !== undefined && (obj.friendRequestId = Math.round(message.friendRequestId));
+    if (message.friendRequestId !== 0) {
+      obj.friendRequestId = Math.round(message.friendRequestId);
+    }
     return obj;
   },
 
@@ -88,14 +90,14 @@ export const DenyFriendRequestResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.success = reader.bool();
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -109,7 +111,9 @@ export const DenyFriendRequestResponse = {
 
   toJSON(message: DenyFriendRequestResponse): unknown {
     const obj: any = {};
-    message.success !== undefined && (obj.success = message.success);
+    if (message.success === true) {
+      obj.success = message.success;
+    }
     return obj;
   },
 
@@ -124,10 +128,10 @@ export const DenyFriendRequestResponse = {
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var tsProtoGlobalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }

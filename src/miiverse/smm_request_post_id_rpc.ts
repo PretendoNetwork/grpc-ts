@@ -33,14 +33,14 @@ export const SMMRequestPostIdRequest = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.courseId = longToNumber(reader.uint64() as Long);
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -54,7 +54,9 @@ export const SMMRequestPostIdRequest = {
 
   toJSON(message: SMMRequestPostIdRequest): unknown {
     const obj: any = {};
-    message.courseId !== undefined && (obj.courseId = Math.round(message.courseId));
+    if (message.courseId !== 0) {
+      obj.courseId = Math.round(message.courseId);
+    }
     return obj;
   },
 
@@ -89,14 +91,14 @@ export const SMMRequestPostIdResponse = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag != 8) {
+          if (tag !== 8) {
             break;
           }
 
           message.postId = longToNumber(reader.uint64() as Long);
           continue;
       }
-      if ((tag & 7) == 4 || tag == 0) {
+      if ((tag & 7) === 4 || tag === 0) {
         break;
       }
       reader.skipType(tag & 7);
@@ -110,7 +112,9 @@ export const SMMRequestPostIdResponse = {
 
   toJSON(message: SMMRequestPostIdResponse): unknown {
     const obj: any = {};
-    message.postId !== undefined && (obj.postId = Math.round(message.postId));
+    if (message.postId !== 0) {
+      obj.postId = Math.round(message.postId);
+    }
     return obj;
   },
 
@@ -125,10 +129,10 @@ export const SMMRequestPostIdResponse = {
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var tsProtoGlobalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }
