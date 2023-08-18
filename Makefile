@@ -9,7 +9,7 @@ pull:
 	git submodule update --remote --merge
 
 npm_init:
-	test -d node_modules || npm i
+	test -d node_modules || npm ci
 
 generate_code: $(PROTOS)
 
