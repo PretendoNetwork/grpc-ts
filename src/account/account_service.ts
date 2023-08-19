@@ -3,6 +3,8 @@ import type { CallContext, CallOptions } from "nice-grpc-common";
 import { GetNEXDataRequest, GetNEXDataResponse } from "./get_nex_data_rpc";
 import { GetNEXPasswordRequest, GetNEXPasswordResponse } from "./get_nex_password_rpc";
 import { GetUserDataRequest, GetUserDataResponse } from "./get_user_data_rpc";
+import { Empty } from "./google/protobuf/empty";
+import { UpdatePNIDPermissionsRequest } from "./update_pnid_permissions";
 
 export const protobufPackage = "account";
 
@@ -35,6 +37,14 @@ export const AccountDefinition = {
       responseStream: false,
       options: {},
     },
+    updatePNIDPermissions: {
+      name: "UpdatePNIDPermissions",
+      requestType: UpdatePNIDPermissionsRequest,
+      requestStream: false,
+      responseType: Empty,
+      responseStream: false,
+      options: {},
+    },
   },
 } as const;
 
@@ -51,6 +61,10 @@ export interface AccountServiceImplementation<CallContextExt = {}> {
     request: GetNEXDataRequest,
     context: CallContext & CallContextExt,
   ): Promise<DeepPartial<GetNEXDataResponse>>;
+  updatePNIDPermissions(
+    request: UpdatePNIDPermissionsRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<Empty>>;
 }
 
 export interface AccountClient<CallOptionsExt = {}> {
@@ -66,6 +80,10 @@ export interface AccountClient<CallOptionsExt = {}> {
     request: DeepPartial<GetNEXDataRequest>,
     options?: CallOptions & CallOptionsExt,
   ): Promise<GetNEXDataResponse>;
+  updatePNIDPermissions(
+    request: DeepPartial<UpdatePNIDPermissionsRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<Empty>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import type { CallContext, CallOptions } from "nice-grpc-common";
-import { SMMRequestPostIdRequest, SMMRequestPostIdResponse } from "./smm_request_post_id_rpc";
+import { SMMRequestPostIDRequest, SMMRequestPostIDResponse } from "./smm_request_post_id_rpc";
 
 export const protobufPackage = "miiverse";
 
@@ -12,9 +12,9 @@ export const MiiverseDefinition = {
     /** Used by Super Mario Maker */
     sMMRequestPostId: {
       name: "SMMRequestPostId",
-      requestType: SMMRequestPostIdRequest,
+      requestType: SMMRequestPostIDRequest,
       requestStream: false,
-      responseType: SMMRequestPostIdResponse,
+      responseType: SMMRequestPostIDResponse,
       responseStream: false,
       options: {},
     },
@@ -24,17 +24,17 @@ export const MiiverseDefinition = {
 export interface MiiverseServiceImplementation<CallContextExt = {}> {
   /** Used by Super Mario Maker */
   sMMRequestPostId(
-    request: SMMRequestPostIdRequest,
+    request: SMMRequestPostIDRequest,
     context: CallContext & CallContextExt,
-  ): Promise<DeepPartial<SMMRequestPostIdResponse>>;
+  ): Promise<DeepPartial<SMMRequestPostIDResponse>>;
 }
 
 export interface MiiverseClient<CallOptionsExt = {}> {
   /** Used by Super Mario Maker */
   sMMRequestPostId(
-    request: DeepPartial<SMMRequestPostIdRequest>,
+    request: DeepPartial<SMMRequestPostIDRequest>,
     options?: CallOptions & CallOptionsExt,
-  ): Promise<SMMRequestPostIdResponse>;
+  ): Promise<SMMRequestPostIDResponse>;
 }
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;

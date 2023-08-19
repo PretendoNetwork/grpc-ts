@@ -4,31 +4,31 @@ import _m0 from "protobufjs/minimal";
 
 export const protobufPackage = "miiverse";
 
-export interface SMMRequestPostIdRequest {
-  /** TODO: Other course/user data? */
+export interface SMMRequestPostIDRequest {
+  /** TODO - Other course/user data? */
   courseId: number;
 }
 
-export interface SMMRequestPostIdResponse {
+export interface SMMRequestPostIDResponse {
   postId: number;
 }
 
-function createBaseSMMRequestPostIdRequest(): SMMRequestPostIdRequest {
+function createBaseSMMRequestPostIDRequest(): SMMRequestPostIDRequest {
   return { courseId: 0 };
 }
 
-export const SMMRequestPostIdRequest = {
-  encode(message: SMMRequestPostIdRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const SMMRequestPostIDRequest = {
+  encode(message: SMMRequestPostIDRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.courseId !== 0) {
       writer.uint32(8).uint64(message.courseId);
     }
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): SMMRequestPostIdRequest {
+  decode(input: _m0.Reader | Uint8Array, length?: number): SMMRequestPostIDRequest {
     const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseSMMRequestPostIdRequest();
+    const message = createBaseSMMRequestPostIDRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -48,11 +48,11 @@ export const SMMRequestPostIdRequest = {
     return message;
   },
 
-  fromJSON(object: any): SMMRequestPostIdRequest {
+  fromJSON(object: any): SMMRequestPostIDRequest {
     return { courseId: isSet(object.courseId) ? Number(object.courseId) : 0 };
   },
 
-  toJSON(message: SMMRequestPostIdRequest): unknown {
+  toJSON(message: SMMRequestPostIDRequest): unknown {
     const obj: any = {};
     if (message.courseId !== 0) {
       obj.courseId = Math.round(message.courseId);
@@ -60,33 +60,33 @@ export const SMMRequestPostIdRequest = {
     return obj;
   },
 
-  create(base?: DeepPartial<SMMRequestPostIdRequest>): SMMRequestPostIdRequest {
-    return SMMRequestPostIdRequest.fromPartial(base ?? {});
+  create(base?: DeepPartial<SMMRequestPostIDRequest>): SMMRequestPostIDRequest {
+    return SMMRequestPostIDRequest.fromPartial(base ?? {});
   },
 
-  fromPartial(object: DeepPartial<SMMRequestPostIdRequest>): SMMRequestPostIdRequest {
-    const message = createBaseSMMRequestPostIdRequest();
+  fromPartial(object: DeepPartial<SMMRequestPostIDRequest>): SMMRequestPostIDRequest {
+    const message = createBaseSMMRequestPostIDRequest();
     message.courseId = object.courseId ?? 0;
     return message;
   },
 };
 
-function createBaseSMMRequestPostIdResponse(): SMMRequestPostIdResponse {
+function createBaseSMMRequestPostIDResponse(): SMMRequestPostIDResponse {
   return { postId: 0 };
 }
 
-export const SMMRequestPostIdResponse = {
-  encode(message: SMMRequestPostIdResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const SMMRequestPostIDResponse = {
+  encode(message: SMMRequestPostIDResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.postId !== 0) {
       writer.uint32(8).uint64(message.postId);
     }
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): SMMRequestPostIdResponse {
+  decode(input: _m0.Reader | Uint8Array, length?: number): SMMRequestPostIDResponse {
     const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseSMMRequestPostIdResponse();
+    const message = createBaseSMMRequestPostIDResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -106,11 +106,11 @@ export const SMMRequestPostIdResponse = {
     return message;
   },
 
-  fromJSON(object: any): SMMRequestPostIdResponse {
+  fromJSON(object: any): SMMRequestPostIDResponse {
     return { postId: isSet(object.postId) ? Number(object.postId) : 0 };
   },
 
-  toJSON(message: SMMRequestPostIdResponse): unknown {
+  toJSON(message: SMMRequestPostIDResponse): unknown {
     const obj: any = {};
     if (message.postId !== 0) {
       obj.postId = Math.round(message.postId);
@@ -118,12 +118,12 @@ export const SMMRequestPostIdResponse = {
     return obj;
   },
 
-  create(base?: DeepPartial<SMMRequestPostIdResponse>): SMMRequestPostIdResponse {
-    return SMMRequestPostIdResponse.fromPartial(base ?? {});
+  create(base?: DeepPartial<SMMRequestPostIDResponse>): SMMRequestPostIDResponse {
+    return SMMRequestPostIDResponse.fromPartial(base ?? {});
   },
 
-  fromPartial(object: DeepPartial<SMMRequestPostIdResponse>): SMMRequestPostIdResponse {
-    const message = createBaseSMMRequestPostIdResponse();
+  fromPartial(object: DeepPartial<SMMRequestPostIDResponse>): SMMRequestPostIDResponse {
+    const message = createBaseSMMRequestPostIDResponse();
     message.postId = object.postId ?? 0;
     return message;
   },

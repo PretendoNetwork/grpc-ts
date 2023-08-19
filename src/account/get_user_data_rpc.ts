@@ -1,6 +1,7 @@
 /* eslint-disable */
 import _m0 from "protobufjs/minimal";
 import { Mii } from "./mii";
+import { PNIDPermissionFlags } from "./pnid_permission_flags";
 
 export const protobufPackage = "account";
 
@@ -22,6 +23,7 @@ export interface GetUserDataResponse {
   language: string;
   emailAddress: string;
   tierName: string;
+  permissions: PNIDPermissionFlags | undefined;
 }
 
 function createBaseGetUserDataRequest(): GetUserDataRequest {
@@ -97,6 +99,7 @@ function createBaseGetUserDataResponse(): GetUserDataResponse {
     language: "",
     emailAddress: "",
     tierName: "",
+    permissions: undefined,
   };
 }
 
@@ -140,6 +143,9 @@ export const GetUserDataResponse = {
     }
     if (message.tierName !== "") {
       writer.uint32(106).string(message.tierName);
+    }
+    if (message.permissions !== undefined) {
+      PNIDPermissionFlags.encode(message.permissions, writer.uint32(114).fork()).ldelim();
     }
     return writer;
   },
@@ -242,6 +248,13 @@ export const GetUserDataResponse = {
 
           message.tierName = reader.string();
           continue;
+        case 14:
+          if (tag !== 114) {
+            break;
+          }
+
+          message.permissions = PNIDPermissionFlags.decode(reader, reader.uint32());
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -266,6 +279,7 @@ export const GetUserDataResponse = {
       language: isSet(object.language) ? String(object.language) : "",
       emailAddress: isSet(object.emailAddress) ? String(object.emailAddress) : "",
       tierName: isSet(object.tierName) ? String(object.tierName) : "",
+      permissions: isSet(object.permissions) ? PNIDPermissionFlags.fromJSON(object.permissions) : undefined,
     };
   },
 
@@ -310,6 +324,9 @@ export const GetUserDataResponse = {
     if (message.tierName !== "") {
       obj.tierName = message.tierName;
     }
+    if (message.permissions !== undefined) {
+      obj.permissions = PNIDPermissionFlags.toJSON(message.permissions);
+    }
     return obj;
   },
 
@@ -332,6 +349,9 @@ export const GetUserDataResponse = {
     message.language = object.language ?? "";
     message.emailAddress = object.emailAddress ?? "";
     message.tierName = object.tierName ?? "";
+    message.permissions = (object.permissions !== undefined && object.permissions !== null)
+      ? PNIDPermissionFlags.fromPartial(object.permissions)
+      : undefined;
     return message;
   },
 };
