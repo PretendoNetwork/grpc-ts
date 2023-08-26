@@ -7,6 +7,7 @@ export const protobufPackage = "boss";
 export interface Task {
   deleted: boolean;
   id: string;
+  inGameId: string;
   bossAppId: string;
   creatorPid: number;
   status: string;
@@ -20,6 +21,7 @@ function createBaseTask(): Task {
   return {
     deleted: false,
     id: "",
+    inGameId: "",
     bossAppId: "",
     creatorPid: 0,
     status: "",
@@ -37,6 +39,9 @@ export const Task = {
     }
     if (message.id !== "") {
       writer.uint32(18).string(message.id);
+    }
+    if (message.inGameId !== "") {
+      writer.uint32(26).string(message.inGameId);
     }
     if (message.bossAppId !== "") {
       writer.uint32(34).string(message.bossAppId);
@@ -82,6 +87,13 @@ export const Task = {
           }
 
           message.id = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.inGameId = reader.string();
           continue;
         case 4:
           if (tag !== 34) {
@@ -145,6 +157,7 @@ export const Task = {
     return {
       deleted: isSet(object.deleted) ? Boolean(object.deleted) : false,
       id: isSet(object.id) ? String(object.id) : "",
+      inGameId: isSet(object.inGameId) ? String(object.inGameId) : "",
       bossAppId: isSet(object.bossAppId) ? String(object.bossAppId) : "",
       creatorPid: isSet(object.creatorPid) ? Number(object.creatorPid) : 0,
       status: isSet(object.status) ? String(object.status) : "",
@@ -162,6 +175,9 @@ export const Task = {
     }
     if (message.id !== "") {
       obj.id = message.id;
+    }
+    if (message.inGameId !== "") {
+      obj.inGameId = message.inGameId;
     }
     if (message.bossAppId !== "") {
       obj.bossAppId = message.bossAppId;
@@ -195,6 +211,7 @@ export const Task = {
     const message = createBaseTask();
     message.deleted = object.deleted ?? false;
     message.id = object.id ?? "";
+    message.inGameId = object.inGameId ?? "";
     message.bossAppId = object.bossAppId ?? "";
     message.creatorPid = object.creatorPid ?? 0;
     message.status = object.status ?? "";
