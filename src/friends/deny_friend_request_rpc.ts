@@ -5,7 +5,7 @@ import _m0 from "protobufjs/minimal";
 export const protobufPackage = "friends";
 
 export interface DenyFriendRequestRequest {
-  friendRequestId: number;
+  friendRequestId: bigint;
 }
 
 export interface DenyFriendRequestResponse {
@@ -13,13 +13,13 @@ export interface DenyFriendRequestResponse {
 }
 
 function createBaseDenyFriendRequestRequest(): DenyFriendRequestRequest {
-  return { friendRequestId: 0 };
+  return { friendRequestId: BigInt("0") };
 }
 
 export const DenyFriendRequestRequest = {
   encode(message: DenyFriendRequestRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.friendRequestId !== 0) {
-      writer.uint32(8).uint64(message.friendRequestId);
+    if (message.friendRequestId !== BigInt("0")) {
+      writer.uint32(8).uint64(message.friendRequestId.toString());
     }
     return writer;
   },
@@ -36,7 +36,7 @@ export const DenyFriendRequestRequest = {
             break;
           }
 
-          message.friendRequestId = longToNumber(reader.uint64() as Long);
+          message.friendRequestId = longToBigint(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -48,13 +48,13 @@ export const DenyFriendRequestRequest = {
   },
 
   fromJSON(object: any): DenyFriendRequestRequest {
-    return { friendRequestId: isSet(object.friendRequestId) ? Number(object.friendRequestId) : 0 };
+    return { friendRequestId: isSet(object.friendRequestId) ? BigInt(object.friendRequestId) : BigInt("0") };
   },
 
   toJSON(message: DenyFriendRequestRequest): unknown {
     const obj: any = {};
-    if (message.friendRequestId !== 0) {
-      obj.friendRequestId = Math.round(message.friendRequestId);
+    if (message.friendRequestId !== BigInt("0")) {
+      obj.friendRequestId = message.friendRequestId.toString();
     }
     return obj;
   },
@@ -65,7 +65,7 @@ export const DenyFriendRequestRequest = {
 
   fromPartial(object: DeepPartial<DenyFriendRequestRequest>): DenyFriendRequestRequest {
     const message = createBaseDenyFriendRequestRequest();
-    message.friendRequestId = object.friendRequestId ?? 0;
+    message.friendRequestId = object.friendRequestId ?? BigInt("0");
     return message;
   },
 };
@@ -128,37 +128,15 @@ export const DenyFriendRequestResponse = {
   },
 };
 
-declare const self: any | undefined;
-declare const window: any | undefined;
-declare const global: any | undefined;
-const tsProtoGlobalThis: any = (() => {
-  if (typeof globalThis !== "undefined") {
-    return globalThis;
-  }
-  if (typeof self !== "undefined") {
-    return self;
-  }
-  if (typeof window !== "undefined") {
-    return window;
-  }
-  if (typeof global !== "undefined") {
-    return global;
-  }
-  throw "Unable to locate global object";
-})();
-
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | bigint | undefined;
 
 export type DeepPartial<T> = T extends Builtin ? T
   : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 
-function longToNumber(long: Long): number {
-  if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
-  }
-  return long.toNumber();
+function longToBigint(long: Long) {
+  return BigInt(long.toString());
 }
 
 if (_m0.util.Long !== Long) {

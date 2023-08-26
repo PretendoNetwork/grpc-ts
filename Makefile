@@ -22,6 +22,8 @@ $(PROTOS): %:
 
 	$(NODE_BIN)/grpc_tools_node_protoc \
 	--plugin=protoc-gen-ts_proto=$(NODE_BIN)/protoc-gen-ts_proto \
+	--ts_proto_opt=env=node \
+	--ts_proto_opt=forceLong=bigint \
 	--ts_proto_out=src/$@ \
 	--ts_proto_opt=outputServices=nice-grpc,outputServices=generic-definitions,useExactTypes=false,esModuleInterop=true \
 	--proto_path=$(PROTOS_PATH)/$@ \

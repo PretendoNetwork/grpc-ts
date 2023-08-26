@@ -10,7 +10,7 @@ export interface SetStripeConnectionDataRequest {
   priceId?: string | undefined;
   tierLevel?: number | undefined;
   tierName?: string | undefined;
-  timestamp: number;
+  timestamp: bigint;
   accessLevel?: number | undefined;
   serverAccessLevel?: string | undefined;
 }
@@ -22,7 +22,7 @@ function createBaseSetStripeConnectionDataRequest(): SetStripeConnectionDataRequ
     priceId: undefined,
     tierLevel: undefined,
     tierName: undefined,
-    timestamp: 0,
+    timestamp: BigInt("0"),
     accessLevel: undefined,
     serverAccessLevel: undefined,
   };
@@ -45,8 +45,8 @@ export const SetStripeConnectionDataRequest = {
     if (message.tierName !== undefined) {
       writer.uint32(42).string(message.tierName);
     }
-    if (message.timestamp !== 0) {
-      writer.uint32(48).uint64(message.timestamp);
+    if (message.timestamp !== BigInt("0")) {
+      writer.uint32(48).uint64(message.timestamp.toString());
     }
     if (message.accessLevel !== undefined) {
       writer.uint32(56).uint32(message.accessLevel);
@@ -104,7 +104,7 @@ export const SetStripeConnectionDataRequest = {
             break;
           }
 
-          message.timestamp = longToNumber(reader.uint64() as Long);
+          message.timestamp = longToBigint(reader.uint64() as Long);
           continue;
         case 7:
           if (tag !== 56) {
@@ -136,7 +136,7 @@ export const SetStripeConnectionDataRequest = {
       priceId: isSet(object.priceId) ? String(object.priceId) : undefined,
       tierLevel: isSet(object.tierLevel) ? Number(object.tierLevel) : undefined,
       tierName: isSet(object.tierName) ? String(object.tierName) : undefined,
-      timestamp: isSet(object.timestamp) ? Number(object.timestamp) : 0,
+      timestamp: isSet(object.timestamp) ? BigInt(object.timestamp) : BigInt("0"),
       accessLevel: isSet(object.accessLevel) ? Number(object.accessLevel) : undefined,
       serverAccessLevel: isSet(object.serverAccessLevel) ? String(object.serverAccessLevel) : undefined,
     };
@@ -159,8 +159,8 @@ export const SetStripeConnectionDataRequest = {
     if (message.tierName !== undefined) {
       obj.tierName = message.tierName;
     }
-    if (message.timestamp !== 0) {
-      obj.timestamp = Math.round(message.timestamp);
+    if (message.timestamp !== BigInt("0")) {
+      obj.timestamp = message.timestamp.toString();
     }
     if (message.accessLevel !== undefined) {
       obj.accessLevel = Math.round(message.accessLevel);
@@ -182,44 +182,22 @@ export const SetStripeConnectionDataRequest = {
     message.priceId = object.priceId ?? undefined;
     message.tierLevel = object.tierLevel ?? undefined;
     message.tierName = object.tierName ?? undefined;
-    message.timestamp = object.timestamp ?? 0;
+    message.timestamp = object.timestamp ?? BigInt("0");
     message.accessLevel = object.accessLevel ?? undefined;
     message.serverAccessLevel = object.serverAccessLevel ?? undefined;
     return message;
   },
 };
 
-declare const self: any | undefined;
-declare const window: any | undefined;
-declare const global: any | undefined;
-const tsProtoGlobalThis: any = (() => {
-  if (typeof globalThis !== "undefined") {
-    return globalThis;
-  }
-  if (typeof self !== "undefined") {
-    return self;
-  }
-  if (typeof window !== "undefined") {
-    return window;
-  }
-  if (typeof global !== "undefined") {
-    return global;
-  }
-  throw "Unable to locate global object";
-})();
-
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | bigint | undefined;
 
 export type DeepPartial<T> = T extends Builtin ? T
   : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 
-function longToNumber(long: Long): number {
-  if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
-  }
-  return long.toNumber();
+function longToBigint(long: Long) {
+  return BigInt(long.toString());
 }
 
 if (_m0.util.Long !== Long) {

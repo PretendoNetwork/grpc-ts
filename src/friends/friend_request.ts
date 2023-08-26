@@ -5,22 +5,22 @@ import _m0 from "protobufjs/minimal";
 export const protobufPackage = "friends";
 
 export interface FriendRequest {
-  id: number;
+  id: bigint;
   sender: number;
   recipient: number;
-  sent: number;
-  expires: number;
+  sent: bigint;
+  expires: bigint;
   message: string;
 }
 
 function createBaseFriendRequest(): FriendRequest {
-  return { id: 0, sender: 0, recipient: 0, sent: 0, expires: 0, message: "" };
+  return { id: BigInt("0"), sender: 0, recipient: 0, sent: BigInt("0"), expires: BigInt("0"), message: "" };
 }
 
 export const FriendRequest = {
   encode(message: FriendRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.id !== 0) {
-      writer.uint32(8).uint64(message.id);
+    if (message.id !== BigInt("0")) {
+      writer.uint32(8).uint64(message.id.toString());
     }
     if (message.sender !== 0) {
       writer.uint32(16).uint32(message.sender);
@@ -28,11 +28,11 @@ export const FriendRequest = {
     if (message.recipient !== 0) {
       writer.uint32(24).uint32(message.recipient);
     }
-    if (message.sent !== 0) {
-      writer.uint32(32).uint64(message.sent);
+    if (message.sent !== BigInt("0")) {
+      writer.uint32(32).uint64(message.sent.toString());
     }
-    if (message.expires !== 0) {
-      writer.uint32(40).uint64(message.expires);
+    if (message.expires !== BigInt("0")) {
+      writer.uint32(40).uint64(message.expires.toString());
     }
     if (message.message !== "") {
       writer.uint32(50).string(message.message);
@@ -52,7 +52,7 @@ export const FriendRequest = {
             break;
           }
 
-          message.id = longToNumber(reader.uint64() as Long);
+          message.id = longToBigint(reader.uint64() as Long);
           continue;
         case 2:
           if (tag !== 16) {
@@ -73,14 +73,14 @@ export const FriendRequest = {
             break;
           }
 
-          message.sent = longToNumber(reader.uint64() as Long);
+          message.sent = longToBigint(reader.uint64() as Long);
           continue;
         case 5:
           if (tag !== 40) {
             break;
           }
 
-          message.expires = longToNumber(reader.uint64() as Long);
+          message.expires = longToBigint(reader.uint64() as Long);
           continue;
         case 6:
           if (tag !== 50) {
@@ -100,19 +100,19 @@ export const FriendRequest = {
 
   fromJSON(object: any): FriendRequest {
     return {
-      id: isSet(object.id) ? Number(object.id) : 0,
+      id: isSet(object.id) ? BigInt(object.id) : BigInt("0"),
       sender: isSet(object.sender) ? Number(object.sender) : 0,
       recipient: isSet(object.recipient) ? Number(object.recipient) : 0,
-      sent: isSet(object.sent) ? Number(object.sent) : 0,
-      expires: isSet(object.expires) ? Number(object.expires) : 0,
+      sent: isSet(object.sent) ? BigInt(object.sent) : BigInt("0"),
+      expires: isSet(object.expires) ? BigInt(object.expires) : BigInt("0"),
       message: isSet(object.message) ? String(object.message) : "",
     };
   },
 
   toJSON(message: FriendRequest): unknown {
     const obj: any = {};
-    if (message.id !== 0) {
-      obj.id = Math.round(message.id);
+    if (message.id !== BigInt("0")) {
+      obj.id = message.id.toString();
     }
     if (message.sender !== 0) {
       obj.sender = Math.round(message.sender);
@@ -120,11 +120,11 @@ export const FriendRequest = {
     if (message.recipient !== 0) {
       obj.recipient = Math.round(message.recipient);
     }
-    if (message.sent !== 0) {
-      obj.sent = Math.round(message.sent);
+    if (message.sent !== BigInt("0")) {
+      obj.sent = message.sent.toString();
     }
-    if (message.expires !== 0) {
-      obj.expires = Math.round(message.expires);
+    if (message.expires !== BigInt("0")) {
+      obj.expires = message.expires.toString();
     }
     if (message.message !== "") {
       obj.message = message.message;
@@ -138,47 +138,25 @@ export const FriendRequest = {
 
   fromPartial(object: DeepPartial<FriendRequest>): FriendRequest {
     const message = createBaseFriendRequest();
-    message.id = object.id ?? 0;
+    message.id = object.id ?? BigInt("0");
     message.sender = object.sender ?? 0;
     message.recipient = object.recipient ?? 0;
-    message.sent = object.sent ?? 0;
-    message.expires = object.expires ?? 0;
+    message.sent = object.sent ?? BigInt("0");
+    message.expires = object.expires ?? BigInt("0");
     message.message = object.message ?? "";
     return message;
   },
 };
 
-declare const self: any | undefined;
-declare const window: any | undefined;
-declare const global: any | undefined;
-const tsProtoGlobalThis: any = (() => {
-  if (typeof globalThis !== "undefined") {
-    return globalThis;
-  }
-  if (typeof self !== "undefined") {
-    return self;
-  }
-  if (typeof window !== "undefined") {
-    return window;
-  }
-  if (typeof global !== "undefined") {
-    return global;
-  }
-  throw "Unable to locate global object";
-})();
-
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | bigint | undefined;
 
 export type DeepPartial<T> = T extends Builtin ? T
   : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 
-function longToNumber(long: Long): number {
-  if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
-  }
-  return long.toNumber();
+function longToBigint(long: Long) {
+  return BigInt(long.toString());
 }
 
 if (_m0.util.Long !== Long) {

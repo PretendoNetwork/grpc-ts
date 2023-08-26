@@ -1,5 +1,6 @@
 /* eslint-disable */
 import type { CallContext, CallOptions } from "nice-grpc-common";
+import { ExchangeTokenForUserDataRequest } from "./exchange_token_for_user_data";
 import { GetNEXDataRequest, GetNEXDataResponse } from "./get_nex_data_rpc";
 import { GetNEXPasswordRequest, GetNEXPasswordResponse } from "./get_nex_password_rpc";
 import { GetUserDataRequest, GetUserDataResponse } from "./get_user_data_rpc";
@@ -45,6 +46,14 @@ export const AccountDefinition = {
       responseStream: false,
       options: {},
     },
+    exchangeTokenForUserData: {
+      name: "ExchangeTokenForUserData",
+      requestType: ExchangeTokenForUserDataRequest,
+      requestStream: false,
+      responseType: GetUserDataResponse,
+      responseStream: false,
+      options: {},
+    },
   },
 } as const;
 
@@ -65,6 +74,10 @@ export interface AccountServiceImplementation<CallContextExt = {}> {
     request: UpdatePNIDPermissionsRequest,
     context: CallContext & CallContextExt,
   ): Promise<DeepPartial<Empty>>;
+  exchangeTokenForUserData(
+    request: ExchangeTokenForUserDataRequest,
+    context: CallContext & CallContextExt,
+  ): Promise<DeepPartial<GetUserDataResponse>>;
 }
 
 export interface AccountClient<CallOptionsExt = {}> {
@@ -84,9 +97,13 @@ export interface AccountClient<CallOptionsExt = {}> {
     request: DeepPartial<UpdatePNIDPermissionsRequest>,
     options?: CallOptions & CallOptionsExt,
   ): Promise<Empty>;
+  exchangeTokenForUserData(
+    request: DeepPartial<ExchangeTokenForUserDataRequest>,
+    options?: CallOptions & CallOptionsExt,
+  ): Promise<GetUserDataResponse>;
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | bigint | undefined;
 
 export type DeepPartial<T> = T extends Builtin ? T
   : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>

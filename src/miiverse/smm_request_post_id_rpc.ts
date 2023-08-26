@@ -6,21 +6,21 @@ export const protobufPackage = "miiverse";
 
 export interface SMMRequestPostIDRequest {
   /** TODO - Other course/user data? */
-  courseId: number;
+  courseId: bigint;
 }
 
 export interface SMMRequestPostIDResponse {
-  postId: number;
+  postId: bigint;
 }
 
 function createBaseSMMRequestPostIDRequest(): SMMRequestPostIDRequest {
-  return { courseId: 0 };
+  return { courseId: BigInt("0") };
 }
 
 export const SMMRequestPostIDRequest = {
   encode(message: SMMRequestPostIDRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.courseId !== 0) {
-      writer.uint32(8).uint64(message.courseId);
+    if (message.courseId !== BigInt("0")) {
+      writer.uint32(8).uint64(message.courseId.toString());
     }
     return writer;
   },
@@ -37,7 +37,7 @@ export const SMMRequestPostIDRequest = {
             break;
           }
 
-          message.courseId = longToNumber(reader.uint64() as Long);
+          message.courseId = longToBigint(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -49,13 +49,13 @@ export const SMMRequestPostIDRequest = {
   },
 
   fromJSON(object: any): SMMRequestPostIDRequest {
-    return { courseId: isSet(object.courseId) ? Number(object.courseId) : 0 };
+    return { courseId: isSet(object.courseId) ? BigInt(object.courseId) : BigInt("0") };
   },
 
   toJSON(message: SMMRequestPostIDRequest): unknown {
     const obj: any = {};
-    if (message.courseId !== 0) {
-      obj.courseId = Math.round(message.courseId);
+    if (message.courseId !== BigInt("0")) {
+      obj.courseId = message.courseId.toString();
     }
     return obj;
   },
@@ -66,19 +66,19 @@ export const SMMRequestPostIDRequest = {
 
   fromPartial(object: DeepPartial<SMMRequestPostIDRequest>): SMMRequestPostIDRequest {
     const message = createBaseSMMRequestPostIDRequest();
-    message.courseId = object.courseId ?? 0;
+    message.courseId = object.courseId ?? BigInt("0");
     return message;
   },
 };
 
 function createBaseSMMRequestPostIDResponse(): SMMRequestPostIDResponse {
-  return { postId: 0 };
+  return { postId: BigInt("0") };
 }
 
 export const SMMRequestPostIDResponse = {
   encode(message: SMMRequestPostIDResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.postId !== 0) {
-      writer.uint32(8).uint64(message.postId);
+    if (message.postId !== BigInt("0")) {
+      writer.uint32(8).uint64(message.postId.toString());
     }
     return writer;
   },
@@ -95,7 +95,7 @@ export const SMMRequestPostIDResponse = {
             break;
           }
 
-          message.postId = longToNumber(reader.uint64() as Long);
+          message.postId = longToBigint(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -107,13 +107,13 @@ export const SMMRequestPostIDResponse = {
   },
 
   fromJSON(object: any): SMMRequestPostIDResponse {
-    return { postId: isSet(object.postId) ? Number(object.postId) : 0 };
+    return { postId: isSet(object.postId) ? BigInt(object.postId) : BigInt("0") };
   },
 
   toJSON(message: SMMRequestPostIDResponse): unknown {
     const obj: any = {};
-    if (message.postId !== 0) {
-      obj.postId = Math.round(message.postId);
+    if (message.postId !== BigInt("0")) {
+      obj.postId = message.postId.toString();
     }
     return obj;
   },
@@ -124,42 +124,20 @@ export const SMMRequestPostIDResponse = {
 
   fromPartial(object: DeepPartial<SMMRequestPostIDResponse>): SMMRequestPostIDResponse {
     const message = createBaseSMMRequestPostIDResponse();
-    message.postId = object.postId ?? 0;
+    message.postId = object.postId ?? BigInt("0");
     return message;
   },
 };
 
-declare const self: any | undefined;
-declare const window: any | undefined;
-declare const global: any | undefined;
-const tsProtoGlobalThis: any = (() => {
-  if (typeof globalThis !== "undefined") {
-    return globalThis;
-  }
-  if (typeof self !== "undefined") {
-    return self;
-  }
-  if (typeof window !== "undefined") {
-    return window;
-  }
-  if (typeof global !== "undefined") {
-    return global;
-  }
-  throw "Unable to locate global object";
-})();
-
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | bigint | undefined;
 
 export type DeepPartial<T> = T extends Builtin ? T
   : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 
-function longToNumber(long: Long): number {
-  if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
-  }
-  return long.toNumber();
+function longToBigint(long: Long) {
+  return BigInt(long.toString());
 }
 
 if (_m0.util.Long !== Long) {

@@ -5,11 +5,11 @@ export const protobufPackage = "friends";
 
 export interface SendUserNotificationWiiURequest {
   pid: number;
-  notificationData: Uint8Array;
+  notificationData: Buffer;
 }
 
 function createBaseSendUserNotificationWiiURequest(): SendUserNotificationWiiURequest {
-  return { pid: 0, notificationData: new Uint8Array(0) };
+  return { pid: 0, notificationData: Buffer.alloc(0) };
 }
 
 export const SendUserNotificationWiiURequest = {
@@ -42,7 +42,7 @@ export const SendUserNotificationWiiURequest = {
             break;
           }
 
-          message.notificationData = reader.bytes();
+          message.notificationData = reader.bytes() as Buffer;
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -56,7 +56,9 @@ export const SendUserNotificationWiiURequest = {
   fromJSON(object: any): SendUserNotificationWiiURequest {
     return {
       pid: isSet(object.pid) ? Number(object.pid) : 0,
-      notificationData: isSet(object.notificationData) ? bytesFromBase64(object.notificationData) : new Uint8Array(0),
+      notificationData: isSet(object.notificationData)
+        ? Buffer.from(bytesFromBase64(object.notificationData))
+        : Buffer.alloc(0),
     };
   },
 
@@ -78,7 +80,7 @@ export const SendUserNotificationWiiURequest = {
   fromPartial(object: DeepPartial<SendUserNotificationWiiURequest>): SendUserNotificationWiiURequest {
     const message = createBaseSendUserNotificationWiiURequest();
     message.pid = object.pid ?? 0;
-    message.notificationData = object.notificationData ?? new Uint8Array(0);
+    message.notificationData = object.notificationData ?? Buffer.alloc(0);
     return message;
   },
 };
@@ -127,7 +129,7 @@ function base64FromBytes(arr: Uint8Array): string {
   }
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | bigint | undefined;
 
 export type DeepPartial<T> = T extends Builtin ? T
   : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>

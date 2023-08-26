@@ -14,7 +14,7 @@ export interface StripeConnection {
   priceId?: string | undefined;
   tierLevel?: number | undefined;
   tierName?: string | undefined;
-  latestWebhookTimestamp: number;
+  latestWebhookTimestamp: bigint;
 }
 
 export interface UserConnections {
@@ -87,7 +87,7 @@ function createBaseStripeConnection(): StripeConnection {
     priceId: undefined,
     tierLevel: undefined,
     tierName: undefined,
-    latestWebhookTimestamp: 0,
+    latestWebhookTimestamp: BigInt("0"),
   };
 }
 
@@ -108,8 +108,8 @@ export const StripeConnection = {
     if (message.tierName !== undefined) {
       writer.uint32(42).string(message.tierName);
     }
-    if (message.latestWebhookTimestamp !== 0) {
-      writer.uint32(48).uint64(message.latestWebhookTimestamp);
+    if (message.latestWebhookTimestamp !== BigInt("0")) {
+      writer.uint32(48).uint64(message.latestWebhookTimestamp.toString());
     }
     return writer;
   },
@@ -161,7 +161,7 @@ export const StripeConnection = {
             break;
           }
 
-          message.latestWebhookTimestamp = longToNumber(reader.uint64() as Long);
+          message.latestWebhookTimestamp = longToBigint(reader.uint64() as Long);
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -179,7 +179,9 @@ export const StripeConnection = {
       priceId: isSet(object.priceId) ? String(object.priceId) : undefined,
       tierLevel: isSet(object.tierLevel) ? Number(object.tierLevel) : undefined,
       tierName: isSet(object.tierName) ? String(object.tierName) : undefined,
-      latestWebhookTimestamp: isSet(object.latestWebhookTimestamp) ? Number(object.latestWebhookTimestamp) : 0,
+      latestWebhookTimestamp: isSet(object.latestWebhookTimestamp)
+        ? BigInt(object.latestWebhookTimestamp)
+        : BigInt("0"),
     };
   },
 
@@ -200,8 +202,8 @@ export const StripeConnection = {
     if (message.tierName !== undefined) {
       obj.tierName = message.tierName;
     }
-    if (message.latestWebhookTimestamp !== 0) {
-      obj.latestWebhookTimestamp = Math.round(message.latestWebhookTimestamp);
+    if (message.latestWebhookTimestamp !== BigInt("0")) {
+      obj.latestWebhookTimestamp = message.latestWebhookTimestamp.toString();
     }
     return obj;
   },
@@ -217,7 +219,7 @@ export const StripeConnection = {
     message.priceId = object.priceId ?? undefined;
     message.tierLevel = object.tierLevel ?? undefined;
     message.tierName = object.tierName ?? undefined;
-    message.latestWebhookTimestamp = object.latestWebhookTimestamp ?? 0;
+    message.latestWebhookTimestamp = object.latestWebhookTimestamp ?? BigInt("0");
     return message;
   },
 };
@@ -301,37 +303,15 @@ export const UserConnections = {
   },
 };
 
-declare const self: any | undefined;
-declare const window: any | undefined;
-declare const global: any | undefined;
-const tsProtoGlobalThis: any = (() => {
-  if (typeof globalThis !== "undefined") {
-    return globalThis;
-  }
-  if (typeof self !== "undefined") {
-    return self;
-  }
-  if (typeof window !== "undefined") {
-    return window;
-  }
-  if (typeof global !== "undefined") {
-    return global;
-  }
-  throw "Unable to locate global object";
-})();
-
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | bigint | undefined;
 
 export type DeepPartial<T> = T extends Builtin ? T
   : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 
-function longToNumber(long: Long): number {
-  if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
-  }
-  return long.toNumber();
+function longToBigint(long: Long) {
+  return BigInt(long.toString());
 }
 
 if (_m0.util.Long !== Long) {

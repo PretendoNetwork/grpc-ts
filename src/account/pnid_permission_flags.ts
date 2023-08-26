@@ -19,6 +19,12 @@ export interface PNIDPermissionFlags {
   banConsoles: boolean;
   moderateMiiverse: boolean;
   createApiKeys: boolean;
+  createBossTasks: boolean;
+  updateBossTasks: boolean;
+  deleteBossTasks: boolean;
+  uploadBossFiles: boolean;
+  updateBossFiles: boolean;
+  deleteBossFiles: boolean;
 }
 
 function createBasePNIDPermissionFlags(): PNIDPermissionFlags {
@@ -38,6 +44,12 @@ function createBasePNIDPermissionFlags(): PNIDPermissionFlags {
     banConsoles: false,
     moderateMiiverse: false,
     createApiKeys: false,
+    createBossTasks: false,
+    updateBossTasks: false,
+    deleteBossTasks: false,
+    uploadBossFiles: false,
+    updateBossFiles: false,
+    deleteBossFiles: false,
   };
 }
 
@@ -87,6 +99,24 @@ export const PNIDPermissionFlags = {
     }
     if (message.createApiKeys === true) {
       writer.uint32(120).bool(message.createApiKeys);
+    }
+    if (message.createBossTasks === true) {
+      writer.uint32(128).bool(message.createBossTasks);
+    }
+    if (message.updateBossTasks === true) {
+      writer.uint32(136).bool(message.updateBossTasks);
+    }
+    if (message.deleteBossTasks === true) {
+      writer.uint32(144).bool(message.deleteBossTasks);
+    }
+    if (message.uploadBossFiles === true) {
+      writer.uint32(152).bool(message.uploadBossFiles);
+    }
+    if (message.updateBossFiles === true) {
+      writer.uint32(160).bool(message.updateBossFiles);
+    }
+    if (message.deleteBossFiles === true) {
+      writer.uint32(168).bool(message.deleteBossFiles);
     }
     return writer;
   },
@@ -203,6 +233,48 @@ export const PNIDPermissionFlags = {
 
           message.createApiKeys = reader.bool();
           continue;
+        case 16:
+          if (tag !== 128) {
+            break;
+          }
+
+          message.createBossTasks = reader.bool();
+          continue;
+        case 17:
+          if (tag !== 136) {
+            break;
+          }
+
+          message.updateBossTasks = reader.bool();
+          continue;
+        case 18:
+          if (tag !== 144) {
+            break;
+          }
+
+          message.deleteBossTasks = reader.bool();
+          continue;
+        case 19:
+          if (tag !== 152) {
+            break;
+          }
+
+          message.uploadBossFiles = reader.bool();
+          continue;
+        case 20:
+          if (tag !== 160) {
+            break;
+          }
+
+          message.updateBossFiles = reader.bool();
+          continue;
+        case 21:
+          if (tag !== 168) {
+            break;
+          }
+
+          message.deleteBossFiles = reader.bool();
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -229,6 +301,12 @@ export const PNIDPermissionFlags = {
       banConsoles: isSet(object.banConsoles) ? Boolean(object.banConsoles) : false,
       moderateMiiverse: isSet(object.moderateMiiverse) ? Boolean(object.moderateMiiverse) : false,
       createApiKeys: isSet(object.createApiKeys) ? Boolean(object.createApiKeys) : false,
+      createBossTasks: isSet(object.createBossTasks) ? Boolean(object.createBossTasks) : false,
+      updateBossTasks: isSet(object.updateBossTasks) ? Boolean(object.updateBossTasks) : false,
+      deleteBossTasks: isSet(object.deleteBossTasks) ? Boolean(object.deleteBossTasks) : false,
+      uploadBossFiles: isSet(object.uploadBossFiles) ? Boolean(object.uploadBossFiles) : false,
+      updateBossFiles: isSet(object.updateBossFiles) ? Boolean(object.updateBossFiles) : false,
+      deleteBossFiles: isSet(object.deleteBossFiles) ? Boolean(object.deleteBossFiles) : false,
     };
   },
 
@@ -279,6 +357,24 @@ export const PNIDPermissionFlags = {
     if (message.createApiKeys === true) {
       obj.createApiKeys = message.createApiKeys;
     }
+    if (message.createBossTasks === true) {
+      obj.createBossTasks = message.createBossTasks;
+    }
+    if (message.updateBossTasks === true) {
+      obj.updateBossTasks = message.updateBossTasks;
+    }
+    if (message.deleteBossTasks === true) {
+      obj.deleteBossTasks = message.deleteBossTasks;
+    }
+    if (message.uploadBossFiles === true) {
+      obj.uploadBossFiles = message.uploadBossFiles;
+    }
+    if (message.updateBossFiles === true) {
+      obj.updateBossFiles = message.updateBossFiles;
+    }
+    if (message.deleteBossFiles === true) {
+      obj.deleteBossFiles = message.deleteBossFiles;
+    }
     return obj;
   },
 
@@ -303,11 +399,17 @@ export const PNIDPermissionFlags = {
     message.banConsoles = object.banConsoles ?? false;
     message.moderateMiiverse = object.moderateMiiverse ?? false;
     message.createApiKeys = object.createApiKeys ?? false;
+    message.createBossTasks = object.createBossTasks ?? false;
+    message.updateBossTasks = object.updateBossTasks ?? false;
+    message.deleteBossTasks = object.deleteBossTasks ?? false;
+    message.uploadBossFiles = object.uploadBossFiles ?? false;
+    message.updateBossFiles = object.updateBossFiles ?? false;
+    message.deleteBossFiles = object.deleteBossFiles ?? false;
     return message;
   },
 };
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | bigint | undefined;
 
 export type DeepPartial<T> = T extends Builtin ? T
   : T extends Array<infer U> ? Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
