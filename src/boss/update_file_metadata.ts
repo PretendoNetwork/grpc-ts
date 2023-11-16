@@ -9,6 +9,10 @@ export interface UpdateFileMetadataData {
   bossAppId: string;
   supportedCountries: string[];
   supportedLanguages: string[];
+  password: string;
+  attribute1: string;
+  attribute2: string;
+  attribute3: string;
   name: string;
   type: string;
   notifyOnNew: string[];
@@ -26,6 +30,10 @@ function createBaseUpdateFileMetadataData(): UpdateFileMetadataData {
     bossAppId: "",
     supportedCountries: [],
     supportedLanguages: [],
+    password: "",
+    attribute1: "",
+    attribute2: "",
+    attribute3: "",
     name: "",
     type: "",
     notifyOnNew: [],
@@ -47,17 +55,29 @@ export const UpdateFileMetadataData = {
     for (const v of message.supportedLanguages) {
       writer.uint32(34).string(v!);
     }
+    if (message.password !== "") {
+      writer.uint32(42).string(message.password);
+    }
+    if (message.attribute1 !== "") {
+      writer.uint32(50).string(message.attribute1);
+    }
+    if (message.attribute2 !== "") {
+      writer.uint32(58).string(message.attribute2);
+    }
+    if (message.attribute3 !== "") {
+      writer.uint32(66).string(message.attribute3);
+    }
     if (message.name !== "") {
-      writer.uint32(42).string(message.name);
+      writer.uint32(74).string(message.name);
     }
     if (message.type !== "") {
-      writer.uint32(50).string(message.type);
+      writer.uint32(82).string(message.type);
     }
     for (const v of message.notifyOnNew) {
-      writer.uint32(58).string(v!);
+      writer.uint32(90).string(v!);
     }
     if (message.notifyLed === true) {
-      writer.uint32(64).bool(message.notifyLed);
+      writer.uint32(96).bool(message.notifyLed);
     }
     return writer;
   },
@@ -102,24 +122,52 @@ export const UpdateFileMetadataData = {
             break;
           }
 
-          message.name = reader.string();
+          message.password = reader.string();
           continue;
         case 6:
           if (tag !== 50) {
             break;
           }
 
-          message.type = reader.string();
+          message.attribute1 = reader.string();
           continue;
         case 7:
           if (tag !== 58) {
             break;
           }
 
-          message.notifyOnNew.push(reader.string());
+          message.attribute2 = reader.string();
           continue;
         case 8:
-          if (tag !== 64) {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.attribute3 = reader.string();
+          continue;
+        case 9:
+          if (tag !== 74) {
+            break;
+          }
+
+          message.name = reader.string();
+          continue;
+        case 10:
+          if (tag !== 82) {
+            break;
+          }
+
+          message.type = reader.string();
+          continue;
+        case 11:
+          if (tag !== 90) {
+            break;
+          }
+
+          message.notifyOnNew.push(reader.string());
+          continue;
+        case 12:
+          if (tag !== 96) {
             break;
           }
 
@@ -144,6 +192,10 @@ export const UpdateFileMetadataData = {
       supportedLanguages: Array.isArray(object?.supportedLanguages)
         ? object.supportedLanguages.map((e: any) => String(e))
         : [],
+      password: isSet(object.password) ? String(object.password) : "",
+      attribute1: isSet(object.attribute1) ? String(object.attribute1) : "",
+      attribute2: isSet(object.attribute2) ? String(object.attribute2) : "",
+      attribute3: isSet(object.attribute3) ? String(object.attribute3) : "",
       name: isSet(object.name) ? String(object.name) : "",
       type: isSet(object.type) ? String(object.type) : "",
       notifyOnNew: Array.isArray(object?.notifyOnNew) ? object.notifyOnNew.map((e: any) => String(e)) : [],
@@ -164,6 +216,18 @@ export const UpdateFileMetadataData = {
     }
     if (message.supportedLanguages?.length) {
       obj.supportedLanguages = message.supportedLanguages;
+    }
+    if (message.password !== "") {
+      obj.password = message.password;
+    }
+    if (message.attribute1 !== "") {
+      obj.attribute1 = message.attribute1;
+    }
+    if (message.attribute2 !== "") {
+      obj.attribute2 = message.attribute2;
+    }
+    if (message.attribute3 !== "") {
+      obj.attribute3 = message.attribute3;
     }
     if (message.name !== "") {
       obj.name = message.name;
@@ -190,6 +254,10 @@ export const UpdateFileMetadataData = {
     message.bossAppId = object.bossAppId ?? "";
     message.supportedCountries = object.supportedCountries?.map((e) => e) || [];
     message.supportedLanguages = object.supportedLanguages?.map((e) => e) || [];
+    message.password = object.password ?? "";
+    message.attribute1 = object.attribute1 ?? "";
+    message.attribute2 = object.attribute2 ?? "";
+    message.attribute3 = object.attribute3 ?? "";
     message.name = object.name ?? "";
     message.type = object.type ?? "";
     message.notifyOnNew = object.notifyOnNew?.map((e) => e) || [];

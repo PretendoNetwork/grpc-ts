@@ -3,6 +3,39 @@ import _m0 from "protobufjs/minimal";
 
 export const protobufPackage = "account";
 
+export enum DeviceType {
+  CTR = 0,
+  WUP = 1,
+  UNRECOGNIZED = -1,
+}
+
+export function deviceTypeFromJSON(object: any): DeviceType {
+  switch (object) {
+    case 0:
+    case "CTR":
+      return DeviceType.CTR;
+    case 1:
+    case "WUP":
+      return DeviceType.WUP;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return DeviceType.UNRECOGNIZED;
+  }
+}
+
+export function deviceTypeToJSON(object: DeviceType): string {
+  switch (object) {
+    case DeviceType.CTR:
+      return "CTR";
+    case DeviceType.WUP:
+      return "WUP";
+    case DeviceType.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 export interface GetNEXDataRequest {
   pid: number;
 }
@@ -14,6 +47,7 @@ export interface GetNEXDataResponse {
   accessLevel: number;
   serverAccessLevel: string;
   friendCode: string;
+  deviceType: DeviceType;
 }
 
 function createBaseGetNEXDataRequest(): GetNEXDataRequest {
@@ -75,7 +109,7 @@ export const GetNEXDataRequest = {
 };
 
 function createBaseGetNEXDataResponse(): GetNEXDataResponse {
-  return { pid: 0, password: "", owningPid: 0, accessLevel: 0, serverAccessLevel: "", friendCode: "" };
+  return { pid: 0, password: "", owningPid: 0, accessLevel: 0, serverAccessLevel: "", friendCode: "", deviceType: 0 };
 }
 
 export const GetNEXDataResponse = {
@@ -97,6 +131,9 @@ export const GetNEXDataResponse = {
     }
     if (message.friendCode !== "") {
       writer.uint32(50).string(message.friendCode);
+    }
+    if (message.deviceType !== 0) {
+      writer.uint32(56).int32(message.deviceType);
     }
     return writer;
   },
@@ -150,6 +187,13 @@ export const GetNEXDataResponse = {
 
           message.friendCode = reader.string();
           continue;
+        case 7:
+          if (tag !== 56) {
+            break;
+          }
+
+          message.deviceType = reader.int32() as any;
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -167,6 +211,7 @@ export const GetNEXDataResponse = {
       accessLevel: isSet(object.accessLevel) ? Number(object.accessLevel) : 0,
       serverAccessLevel: isSet(object.serverAccessLevel) ? String(object.serverAccessLevel) : "",
       friendCode: isSet(object.friendCode) ? String(object.friendCode) : "",
+      deviceType: isSet(object.deviceType) ? deviceTypeFromJSON(object.deviceType) : 0,
     };
   },
 
@@ -190,6 +235,9 @@ export const GetNEXDataResponse = {
     if (message.friendCode !== "") {
       obj.friendCode = message.friendCode;
     }
+    if (message.deviceType !== 0) {
+      obj.deviceType = deviceTypeToJSON(message.deviceType);
+    }
     return obj;
   },
 
@@ -205,6 +253,7 @@ export const GetNEXDataResponse = {
     message.accessLevel = object.accessLevel ?? 0;
     message.serverAccessLevel = object.serverAccessLevel ?? "";
     message.friendCode = object.friendCode ?? "";
+    message.deviceType = object.deviceType ?? 0;
     return message;
   },
 };

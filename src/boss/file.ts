@@ -11,6 +11,10 @@ export interface File {
   bossAppId: string;
   supportedCountries: string[];
   supportedLanguages: string[];
+  password: string;
+  attribute1: string;
+  attribute2: string;
+  attribute3: string;
   creatorPid: number;
   name: string;
   type: string;
@@ -30,6 +34,10 @@ function createBaseFile(): File {
     bossAppId: "",
     supportedCountries: [],
     supportedLanguages: [],
+    password: "",
+    attribute1: "",
+    attribute2: "",
+    attribute3: "",
     creatorPid: 0,
     name: "",
     type: "",
@@ -62,32 +70,44 @@ export const File = {
     for (const v of message.supportedLanguages) {
       writer.uint32(50).string(v!);
     }
+    if (message.password !== "") {
+      writer.uint32(58).string(message.password);
+    }
+    if (message.attribute1 !== "") {
+      writer.uint32(66).string(message.attribute1);
+    }
+    if (message.attribute2 !== "") {
+      writer.uint32(74).string(message.attribute2);
+    }
+    if (message.attribute3 !== "") {
+      writer.uint32(82).string(message.attribute3);
+    }
     if (message.creatorPid !== 0) {
-      writer.uint32(56).uint32(message.creatorPid);
+      writer.uint32(88).uint32(message.creatorPid);
     }
     if (message.name !== "") {
-      writer.uint32(66).string(message.name);
+      writer.uint32(98).string(message.name);
     }
     if (message.type !== "") {
-      writer.uint32(74).string(message.type);
+      writer.uint32(106).string(message.type);
     }
     if (message.hash !== "") {
-      writer.uint32(82).string(message.hash);
+      writer.uint32(114).string(message.hash);
     }
     if (message.size !== BigInt("0")) {
-      writer.uint32(88).uint64(message.size.toString());
+      writer.uint32(120).uint64(message.size.toString());
     }
     for (const v of message.notifyOnNew) {
-      writer.uint32(98).string(v!);
+      writer.uint32(130).string(v!);
     }
     if (message.notifyLed === true) {
-      writer.uint32(104).bool(message.notifyLed);
+      writer.uint32(136).bool(message.notifyLed);
     }
     if (message.createdTimestamp !== BigInt("0")) {
-      writer.uint32(112).uint64(message.createdTimestamp.toString());
+      writer.uint32(144).uint64(message.createdTimestamp.toString());
     }
     if (message.updatedTimestamp !== BigInt("0")) {
-      writer.uint32(120).uint64(message.updatedTimestamp.toString());
+      writer.uint32(152).uint64(message.updatedTimestamp.toString());
     }
     return writer;
   },
@@ -142,63 +162,91 @@ export const File = {
           message.supportedLanguages.push(reader.string());
           continue;
         case 7:
-          if (tag !== 56) {
+          if (tag !== 58) {
             break;
           }
 
-          message.creatorPid = reader.uint32();
+          message.password = reader.string();
           continue;
         case 8:
           if (tag !== 66) {
             break;
           }
 
-          message.name = reader.string();
+          message.attribute1 = reader.string();
           continue;
         case 9:
           if (tag !== 74) {
             break;
           }
 
-          message.type = reader.string();
+          message.attribute2 = reader.string();
           continue;
         case 10:
           if (tag !== 82) {
             break;
           }
 
-          message.hash = reader.string();
+          message.attribute3 = reader.string();
           continue;
         case 11:
           if (tag !== 88) {
             break;
           }
 
-          message.size = longToBigint(reader.uint64() as Long);
+          message.creatorPid = reader.uint32();
           continue;
         case 12:
           if (tag !== 98) {
             break;
           }
 
-          message.notifyOnNew.push(reader.string());
+          message.name = reader.string();
           continue;
         case 13:
-          if (tag !== 104) {
+          if (tag !== 106) {
+            break;
+          }
+
+          message.type = reader.string();
+          continue;
+        case 14:
+          if (tag !== 114) {
+            break;
+          }
+
+          message.hash = reader.string();
+          continue;
+        case 15:
+          if (tag !== 120) {
+            break;
+          }
+
+          message.size = longToBigint(reader.uint64() as Long);
+          continue;
+        case 16:
+          if (tag !== 130) {
+            break;
+          }
+
+          message.notifyOnNew.push(reader.string());
+          continue;
+        case 17:
+          if (tag !== 136) {
             break;
           }
 
           message.notifyLed = reader.bool();
           continue;
-        case 14:
-          if (tag !== 112) {
+        case 18:
+          if (tag !== 144) {
             break;
           }
 
           message.createdTimestamp = longToBigint(reader.uint64() as Long);
           continue;
-        case 15:
-          if (tag !== 120) {
+        case 19:
+          if (tag !== 152) {
             break;
           }
 
@@ -225,6 +273,10 @@ export const File = {
       supportedLanguages: Array.isArray(object?.supportedLanguages)
         ? object.supportedLanguages.map((e: any) => String(e))
         : [],
+      password: isSet(object.password) ? String(object.password) : "",
+      attribute1: isSet(object.attribute1) ? String(object.attribute1) : "",
+      attribute2: isSet(object.attribute2) ? String(object.attribute2) : "",
+      attribute3: isSet(object.attribute3) ? String(object.attribute3) : "",
       creatorPid: isSet(object.creatorPid) ? Number(object.creatorPid) : 0,
       name: isSet(object.name) ? String(object.name) : "",
       type: isSet(object.type) ? String(object.type) : "",
@@ -256,6 +308,18 @@ export const File = {
     }
     if (message.supportedLanguages?.length) {
       obj.supportedLanguages = message.supportedLanguages;
+    }
+    if (message.password !== "") {
+      obj.password = message.password;
+    }
+    if (message.attribute1 !== "") {
+      obj.attribute1 = message.attribute1;
+    }
+    if (message.attribute2 !== "") {
+      obj.attribute2 = message.attribute2;
+    }
+    if (message.attribute3 !== "") {
+      obj.attribute3 = message.attribute3;
     }
     if (message.creatorPid !== 0) {
       obj.creatorPid = Math.round(message.creatorPid);
@@ -299,6 +363,10 @@ export const File = {
     message.bossAppId = object.bossAppId ?? "";
     message.supportedCountries = object.supportedCountries?.map((e) => e) || [];
     message.supportedLanguages = object.supportedLanguages?.map((e) => e) || [];
+    message.password = object.password ?? "";
+    message.attribute1 = object.attribute1 ?? "";
+    message.attribute2 = object.attribute2 ?? "";
+    message.attribute3 = object.attribute3 ?? "";
     message.creatorPid = object.creatorPid ?? 0;
     message.name = object.name ?? "";
     message.type = object.type ?? "";
