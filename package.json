@@ -1,6 +1,6 @@
 {
 	"name": "@pretendonetwork/grpc",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "Compiled gRPC protobufs",
 	"scripts": {
 		"clean": "rimraf ./dist",

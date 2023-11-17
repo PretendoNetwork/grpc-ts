@@ -25,6 +25,7 @@ export interface PNIDPermissionFlags {
   uploadBossFiles: boolean;
   updateBossFiles: boolean;
   deleteBossFiles: boolean;
+  updatePnidPermissions: boolean;
 }
 
 function createBasePNIDPermissionFlags(): PNIDPermissionFlags {
@@ -50,6 +51,7 @@ function createBasePNIDPermissionFlags(): PNIDPermissionFlags {
     uploadBossFiles: false,
     updateBossFiles: false,
     deleteBossFiles: false,
+    updatePnidPermissions: false,
   };
 }
 
@@ -117,6 +119,9 @@ export const PNIDPermissionFlags = {
     }
     if (message.deleteBossFiles === true) {
       writer.uint32(168).bool(message.deleteBossFiles);
+    }
+    if (message.updatePnidPermissions === true) {
+      writer.uint32(176).bool(message.updatePnidPermissions);
     }
     return writer;
   },
@@ -275,6 +280,13 @@ export const PNIDPermissionFlags = {
 
           message.deleteBossFiles = reader.bool();
           continue;
+        case 22:
+          if (tag !== 176) {
+            break;
+          }
+
+          message.updatePnidPermissions = reader.bool();
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -307,6 +319,7 @@ export const PNIDPermissionFlags = {
       uploadBossFiles: isSet(object.uploadBossFiles) ? Boolean(object.uploadBossFiles) : false,
       updateBossFiles: isSet(object.updateBossFiles) ? Boolean(object.updateBossFiles) : false,
       deleteBossFiles: isSet(object.deleteBossFiles) ? Boolean(object.deleteBossFiles) : false,
+      updatePnidPermissions: isSet(object.updatePnidPermissions) ? Boolean(object.updatePnidPermissions) : false,
     };
   },
 
@@ -375,6 +388,9 @@ export const PNIDPermissionFlags = {
     if (message.deleteBossFiles === true) {
       obj.deleteBossFiles = message.deleteBossFiles;
     }
+    if (message.updatePnidPermissions === true) {
+      obj.updatePnidPermissions = message.updatePnidPermissions;
+    }
     return obj;
   },
 
@@ -405,6 +421,7 @@ export const PNIDPermissionFlags = {
     message.uploadBossFiles = object.uploadBossFiles ?? false;
     message.updateBossFiles = object.updateBossFiles ?? false;
     message.deleteBossFiles = object.deleteBossFiles ?? false;
+    message.updatePnidPermissions = object.updatePnidPermissions ?? false;
     return message;
   },
 };
