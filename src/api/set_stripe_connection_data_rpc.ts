@@ -11,8 +11,6 @@ export interface SetStripeConnectionDataRequest {
   tierLevel?: number | undefined;
   tierName?: string | undefined;
   timestamp: bigint;
-  accessLevel?: number | undefined;
-  serverAccessLevel?: string | undefined;
 }
 
 function createBaseSetStripeConnectionDataRequest(): SetStripeConnectionDataRequest {
@@ -23,8 +21,6 @@ function createBaseSetStripeConnectionDataRequest(): SetStripeConnectionDataRequ
     tierLevel: undefined,
     tierName: undefined,
     timestamp: BigInt("0"),
-    accessLevel: undefined,
-    serverAccessLevel: undefined,
   };
 }
 
@@ -47,12 +43,6 @@ export const SetStripeConnectionDataRequest = {
     }
     if (message.timestamp !== BigInt("0")) {
       writer.uint32(48).uint64(message.timestamp.toString());
-    }
-    if (message.accessLevel !== undefined) {
-      writer.uint32(56).uint32(message.accessLevel);
-    }
-    if (message.serverAccessLevel !== undefined) {
-      writer.uint32(66).string(message.serverAccessLevel);
     }
     return writer;
   },
@@ -106,20 +96,6 @@ export const SetStripeConnectionDataRequest = {
 
           message.timestamp = longToBigint(reader.uint64() as Long);
           continue;
-        case 7:
-          if (tag !== 56) {
-            break;
-          }
-
-          message.accessLevel = reader.uint32();
-          continue;
-        case 8:
-          if (tag !== 66) {
-            break;
-          }
-
-          message.serverAccessLevel = reader.string();
-          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -137,8 +113,6 @@ export const SetStripeConnectionDataRequest = {
       tierLevel: isSet(object.tierLevel) ? Number(object.tierLevel) : undefined,
       tierName: isSet(object.tierName) ? String(object.tierName) : undefined,
       timestamp: isSet(object.timestamp) ? BigInt(object.timestamp) : BigInt("0"),
-      accessLevel: isSet(object.accessLevel) ? Number(object.accessLevel) : undefined,
-      serverAccessLevel: isSet(object.serverAccessLevel) ? String(object.serverAccessLevel) : undefined,
     };
   },
 
@@ -162,12 +136,6 @@ export const SetStripeConnectionDataRequest = {
     if (message.timestamp !== BigInt("0")) {
       obj.timestamp = message.timestamp.toString();
     }
-    if (message.accessLevel !== undefined) {
-      obj.accessLevel = Math.round(message.accessLevel);
-    }
-    if (message.serverAccessLevel !== undefined) {
-      obj.serverAccessLevel = message.serverAccessLevel;
-    }
     return obj;
   },
 
@@ -183,8 +151,6 @@ export const SetStripeConnectionDataRequest = {
     message.tierLevel = object.tierLevel ?? undefined;
     message.tierName = object.tierName ?? undefined;
     message.timestamp = object.timestamp ?? BigInt("0");
-    message.accessLevel = object.accessLevel ?? undefined;
-    message.serverAccessLevel = object.serverAccessLevel ?? undefined;
     return message;
   },
 };

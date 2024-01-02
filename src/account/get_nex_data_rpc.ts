@@ -124,7 +124,7 @@ export const GetNEXDataResponse = {
       writer.uint32(24).uint32(message.owningPid);
     }
     if (message.accessLevel !== 0) {
-      writer.uint32(32).uint32(message.accessLevel);
+      writer.uint32(32).int32(message.accessLevel);
     }
     if (message.serverAccessLevel !== "") {
       writer.uint32(42).string(message.serverAccessLevel);
@@ -171,7 +171,7 @@ export const GetNEXDataResponse = {
             break;
           }
 
-          message.accessLevel = reader.uint32();
+          message.accessLevel = reader.int32();
           continue;
         case 5:
           if (tag !== 42) {

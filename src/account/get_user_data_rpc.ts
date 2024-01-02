@@ -115,7 +115,7 @@ export const GetUserDataResponse = {
       writer.uint32(26).string(message.username);
     }
     if (message.accessLevel !== 0) {
-      writer.uint32(32).uint32(message.accessLevel);
+      writer.uint32(32).int32(message.accessLevel);
     }
     if (message.serverAccessLevel !== "") {
       writer.uint32(42).string(message.serverAccessLevel);
@@ -183,7 +183,7 @@ export const GetUserDataResponse = {
             break;
           }
 
-          message.accessLevel = reader.uint32();
+          message.accessLevel = reader.int32();
           continue;
         case 5:
           if (tag !== 42) {
